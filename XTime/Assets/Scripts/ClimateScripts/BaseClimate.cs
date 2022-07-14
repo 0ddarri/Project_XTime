@@ -17,12 +17,14 @@ public class BaseClimate : MonoBehaviour
 
     public virtual void Initialize() // 초기화 함수
     {
+        gameObject.SetActive(false);
         IsPlaying = false;
         CurrentPlayingTime = 0.0f;
     }
 
     public void StartClimate()
     {
+        gameObject.SetActive(true);
         float RandomTime = Random.Range(MinPlayingTime, MaxPlayingTime);
         Debug.Log("시작!");
         StartCoroutine(StartClimate(RandomTime));
@@ -32,5 +34,11 @@ public class BaseClimate : MonoBehaviour
     {
         IsPlaying = true;
         yield return null;
+    }
+
+    protected void EndClimate()
+    {
+        IsPlaying = false;
+        gameObject.SetActive(false);
     }
 }

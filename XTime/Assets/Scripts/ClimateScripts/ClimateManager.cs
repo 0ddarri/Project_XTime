@@ -16,6 +16,12 @@ public class LevelClimate // 단계별 이상기후 리스트
         int RandomNumber = Random.Range(0, ClimateList.Count);
         climate = ClimateList[RandomNumber];
     }
+
+    public void Initialize()
+    {
+        for(int i = 0; i < ClimateList.Count; i++)
+            ClimateList[i].Initialize();
+    }
 }
 
 public class ClimateManager : MonoBehaviour
@@ -26,7 +32,18 @@ public class ClimateManager : MonoBehaviour
 
     [Space(5.0f)]
     [SerializeField] float CurrentClimateDelay = 0.0f;
- 
+
+    public void Initialize()
+    {
+        for(int i = 0; i < LevelClimateList.Count; i++)
+            LevelClimateList[i].Initialize();
+    }
+
+    private void Start()
+    {
+        Initialize();
+    }
+
     void UpdateLevel() // 현재 이상기후 단계 계산
     {
         CurrentLevelTime += Time.deltaTime;
