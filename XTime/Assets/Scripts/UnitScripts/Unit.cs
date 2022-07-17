@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public enum UNIT_STATE // ÇØ´ç À¯´ÖÀÌ ¶°³µ´ÂÁö ¾È¶°³µ´ÂÁö
 {
@@ -49,6 +50,8 @@ public class Unit : MonoBehaviour
 {
     [Header ("Settings")]
     [SerializeField] Rigidbody2D Rb2D;
+    [SerializeField] Transform RayTransform;
+    [SerializeField] float RayLength;
     
     [Header ("State")]
     [SerializeField] float Reliability; // ½Å·Úµµ
@@ -56,12 +59,32 @@ public class Unit : MonoBehaviour
     [SerializeField] MOVEMENT_STATE MovementState;
     [Header ("Status")]
     [SerializeField] float MovementSpeed;
+    [SerializeField] float ChangeMoveTimeMin;
+    [SerializeField] float ChangeMoveTimeMax;
 
+    [SerializeField] List<Vector3> nearPos = new List<Vector3>();
+
+    float CurrentMoveTime = 0.0f;
     float MoveTime = 0.0f;
+    Vector2 MoveDir;
+
+    float t = 0.0f;
+    Vector3 BeforeTilePos;
+    Vector3 ResultNearPos;
+    [SerializeField] GameObject BeforeTileVisualize;
 
     public void Initialize()
     {
         Reliability = 100;
+        MoveTime = Random.Range(ChangeMoveTimeMin, ChangeMoveTimeMax);
+        MoveDir = MoveDirection.GetRandomDirection();
+        BeforeTilePos = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(SceneManager.Ins.Scene.mapManager.GetCellPos(transform.position));
+        ResultNearPos = BeforeTilePos;
+    }
+
+    private void Start()
+    {
+        Initialize();
     }
 
     void Move()
@@ -82,14 +105,87 @@ public class Unit : MonoBehaviour
 
     void RandomMove()
     {
-        MoveTime += Time.deltaTime;
-        Vector2 dir = MoveDirection.GetRandomDirection();
-        Vector2 newPos = Rb2D.position + dir * MovementSpeed * Time.fixedDeltaTime;
+        CurrentMoveTime += Time.deltaTime;
+        if(CurrentMoveTime > MoveTime)
+        {
+            CurrentMoveTime = 0.0f;
+            MoveTime = Random.Range(ChangeMoveTimeMin, ChangeMoveTimeMax);
+            MoveDir = MoveDirection.GetRandomDirection();
+        }
+
+        Vector2 newPos = Rb2D.position + MoveDir * MovementSpeed * Time.fixedDeltaTime;
         Rb2D.MovePosition(newPos);
+    }
+
+    //Vector3 cellToWorldPos = Vector3.zero;
+    //void TileMove()
+    //{
+    //    if(Input.GetMouseButtonDown(0))
+    //    {
+    //        MapManager manager = SceneManager.Ins.Scene.mapManager;
+
+    //        Vector3 camPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        camPos.z = 0;
+    //        Vector3Int cellPos = SceneManager.Ins.Scene.mapManager.GetCellPos(camPos);
+    //        Debug.Log(cellPos);
+    //        if (manager.Tile.HasTile(cellPos))
+    //        {
+    //            Debug.Log("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf : " + cellPos);
+    //            cellToWorldPos = manager.GetCellWorldPos(cellPos);
+    //            Debug.Log(cellToWorldPos);
+    //            cellToWorldPos.y += 0.25f;
+    //        }
+    //    }
+    //    transform.position = Vector3.Lerp(transform.position, cellToWorldPos, Time.deltaTime * 20);
+    //}
+
+    void AutoTileMove()
+    {
+        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
+        nearPos = SceneManager.Ins.Scene.mapManager.GetNearMovableWorldCellPos(CheckPos);
+
+        for(int i = 0; i < nearPos.Count; i++)
+        {
+            if(!Mathf.Approximately(nearPos[i].z, -10000.0f))
+            {
+                Vector3 ResultNearPos = new Vector3(nearPos[i].x, nearPos[i].y + 0.25f, nearPos[i].z);
+                Debug.Log("Near Pos : " + ResultNearPos);
+                transform.position = Vector3.Lerp(transform.position, ResultNearPos, Time.deltaTime);
+            }
+        }
+    }
+
+    void StaticTileMove()
+    {
+        t += Time.deltaTime;
+        if(t > 0.2f)
+        {
+            t = 0.0f;
+            Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
+            nearPos = SceneManager.Ins.Scene.mapManager.GetNearMovableWorldCellPos(CheckPos);
+
+            int random = 0;
+            if(nearPos.Count != 1)
+            {
+                random = Random.Range(0, nearPos.Count);
+                while (nearPos[random] == BeforeTilePos)
+                    random = Random.Range(0, nearPos.Count);
+            }
+
+            BeforeTilePos = new Vector3(ResultNearPos.x, ResultNearPos.y -0.25f, ResultNearPos.z);
+            ResultNearPos = new Vector3(nearPos[random].x, nearPos[random].y + 0.25f, nearPos[random].z);
+            transform.position = ResultNearPos;
+        }
+    }
+
+    private void Update()
+    {
+        StaticTileMove();
+        BeforeTileVisualize.transform.position = BeforeTilePos;
     }
 
     private void FixedUpdate()
     {
-        RandomMove();
+        //RandomMove();
     }
 }
