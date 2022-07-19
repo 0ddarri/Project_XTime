@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseScene : MonoBehaviour
 {
     public MapManager mapManager;
+    public BuildingManager buildingManager;
 
     private void Awake()
     {

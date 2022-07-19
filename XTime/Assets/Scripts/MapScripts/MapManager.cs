@@ -11,6 +11,8 @@ public class MapManager : MonoBehaviour
 
     Dictionary<TileBase, TileData> DataFromTiles;
 
+
+
     private void Awake()
     {
         DataFromTiles = new Dictionary<TileBase, TileData>();
@@ -48,7 +50,6 @@ public class MapManager : MonoBehaviour
         List<Vector3Int> Movetilelist = new List<Vector3Int>();
 
         Vector3Int CurTilePos = GetCellPos(CurPos);
-        Debug.Log("Current Tile Pos : " + CurTilePos);
 
         Vector3Int[] CheckTilePos = new Vector3Int[4];
         CheckTilePos[0] = CurTilePos + Vector3Int.up;

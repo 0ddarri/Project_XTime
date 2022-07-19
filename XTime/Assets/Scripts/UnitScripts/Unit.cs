@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public enum UNIT_STATE // ÇØ´ç À¯´ÖÀÌ ¶°³µ´ÂÁö ¾È¶°³µ´ÂÁö
 {
     NORMAL,
+    IN_BUILDING,
     LEAVED
 }
 
@@ -50,36 +51,45 @@ public class Unit : MonoBehaviour
 {
     [Header ("Settings")]
     [SerializeField] Rigidbody2D Rb2D;
+    [SerializeField] Collider2D Collider2D;
     [SerializeField] Transform RayTransform;
     [SerializeField] float RayLength;
     
     [Header ("State")]
-    [SerializeField] float Reliability; // ½Å·Úµµ
+    public float Confidence; // ½Å·Úµµ
     [SerializeField] UNIT_STATE UnitState;
     [SerializeField] MOVEMENT_STATE MovementState;
     [Header ("Status")]
     [SerializeField] float MovementSpeed;
     [SerializeField] float ChangeMoveTimeMin;
     [SerializeField] float ChangeMoveTimeMax;
+    [Space(5.0f)]
+    [SerializeField] float BuildingStayMinTime = 0.0f;
+    [SerializeField] float BuildingStayMaxTime = 0.0f;
+    [SerializeField] float BuildingStayTime = 0.0f;
+    [SerializeField] float CurrentBuildingStayTime = 0.0f;
 
     [SerializeField] List<Vector3> nearPos = new List<Vector3>();
 
-    float CurrentMoveTime = 0.0f;
-    float MoveTime = 0.0f;
-    Vector2 MoveDir;
-
-    float t = 0.0f;
+    float tileMoveCurTime = 0.0f;
     Vector3 BeforeTilePos;
     Vector3 ResultNearPos;
     [SerializeField] GameObject BeforeTileVisualize;
 
+    Vector3 BuildingOutPosition;
+
+    [Header("Building Info")]
+    [SerializeField] List<int> MapIndexList = new List<int>();
+
     public void Initialize()
     {
-        Reliability = 100;
-        MoveTime = Random.Range(ChangeMoveTimeMin, ChangeMoveTimeMax);
-        MoveDir = MoveDirection.GetRandomDirection();
+        Confidence = 100;
         BeforeTilePos = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(SceneManager.Ins.Scene.mapManager.GetCellPos(transform.position));
         ResultNearPos = BeforeTilePos;
+
+        BuildingStayTime = Random.Range(BuildingStayMinTime, BuildingStayMaxTime);
+        CurrentBuildingStayTime = 0.0f;
+        MapIndexList = SceneManager.Ins.Scene.buildingManager.GetRandomBuildingNum();
     }
 
     private void Start()
@@ -87,80 +97,12 @@ public class Unit : MonoBehaviour
         Initialize();
     }
 
-    void Move()
-    {
-        Vector2 currentPos = Rb2D.position;
-
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        Vector2 inputVector = new Vector2(h, v);
-        Vector2 isoVector = new Vector2(inputVector.x - inputVector.y, (inputVector.x + inputVector.y) / 2);
-        //inputVector = Vector2.ClampMagnitude(inputVector, 1);
-        isoVector = Vector2.ClampMagnitude(isoVector, 1);
-        //Vector2 movement = inputVector * MovementSpeed;
-        Vector2 movement = isoVector * MovementSpeed;
-        Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
-        Rb2D.MovePosition(newPos);
-    }
-
-    void RandomMove()
-    {
-        CurrentMoveTime += Time.deltaTime;
-        if(CurrentMoveTime > MoveTime)
-        {
-            CurrentMoveTime = 0.0f;
-            MoveTime = Random.Range(ChangeMoveTimeMin, ChangeMoveTimeMax);
-            MoveDir = MoveDirection.GetRandomDirection();
-        }
-
-        Vector2 newPos = Rb2D.position + MoveDir * MovementSpeed * Time.fixedDeltaTime;
-        Rb2D.MovePosition(newPos);
-    }
-
-    //Vector3 cellToWorldPos = Vector3.zero;
-    //void TileMove()
-    //{
-    //    if(Input.GetMouseButtonDown(0))
-    //    {
-    //        MapManager manager = SceneManager.Ins.Scene.mapManager;
-
-    //        Vector3 camPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //        camPos.z = 0;
-    //        Vector3Int cellPos = SceneManager.Ins.Scene.mapManager.GetCellPos(camPos);
-    //        Debug.Log(cellPos);
-    //        if (manager.Tile.HasTile(cellPos))
-    //        {
-    //            Debug.Log("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf : " + cellPos);
-    //            cellToWorldPos = manager.GetCellWorldPos(cellPos);
-    //            Debug.Log(cellToWorldPos);
-    //            cellToWorldPos.y += 0.25f;
-    //        }
-    //    }
-    //    transform.position = Vector3.Lerp(transform.position, cellToWorldPos, Time.deltaTime * 20);
-    //}
-
-    void AutoTileMove()
-    {
-        Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
-        nearPos = SceneManager.Ins.Scene.mapManager.GetNearMovableWorldCellPos(CheckPos);
-
-        for(int i = 0; i < nearPos.Count; i++)
-        {
-            if(!Mathf.Approximately(nearPos[i].z, -10000.0f))
-            {
-                Vector3 ResultNearPos = new Vector3(nearPos[i].x, nearPos[i].y + 0.25f, nearPos[i].z);
-                Debug.Log("Near Pos : " + ResultNearPos);
-                transform.position = Vector3.Lerp(transform.position, ResultNearPos, Time.deltaTime);
-            }
-        }
-    }
-
     void StaticTileMove()
     {
-        t += Time.deltaTime;
-        if(t > 0.2f)
+        tileMoveCurTime += Time.deltaTime;
+        if(tileMoveCurTime > 0.2f)
         {
-            t = 0.0f;
+            tileMoveCurTime = 0.0f;
             Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
             nearPos = SceneManager.Ins.Scene.mapManager.GetNearMovableWorldCellPos(CheckPos);
 
@@ -180,12 +122,98 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-        StaticTileMove();
-        BeforeTileVisualize.transform.position = BeforeTilePos;
+        switch (UnitState)
+        {
+            case UNIT_STATE.NORMAL:
+                {
+                    StaticTileMove();
+                    BeforeTileVisualize.transform.position = BeforeTilePos;
+                }
+                break;
+            case UNIT_STATE.IN_BUILDING:
+                {
+                    CurrentBuildingStayTime += Time.deltaTime;
+                    if(CurrentBuildingStayTime > BuildingStayTime)
+                    {
+                        CurrentBuildingStayTime = 0.0f;
+                        ChangeState(UNIT_STATE.NORMAL);
+                    }
+                }
+                break;
+        }
     }
 
-    private void FixedUpdate()
+    void StateInit_Normal()
     {
-        //RandomMove();
+        Vector3Int cellpos = SceneManager.Ins.Scene.mapManager.GetCellPos(BuildingOutPosition);
+        transform.position = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(cellpos);
+        Invoke("INV_ColliderOn", 1.0f);
+    }
+
+    void INV_ColliderOn()
+    {
+        Collider2D.enabled = true;
+    }
+
+    void StateInit_InBuilding()
+    {
+        transform.position = new Vector3(-100000, 0, 0);
+        Collider2D.enabled = false;
+    }
+
+    void StateInit_Leave()
+    {
+
+    }
+
+    void ChangeState(UNIT_STATE newstate)
+    {
+        if (UnitState.Equals(newstate))
+            return;
+
+        switch(newstate)
+        {
+            case UNIT_STATE.NORMAL:
+                {
+                    StateInit_Normal();
+                }
+                break;
+            case UNIT_STATE.IN_BUILDING:
+                {
+                    StateInit_InBuilding();
+                }
+                break;
+            case UNIT_STATE.LEAVED:
+                {
+                    StateInit_Leave();
+                }
+                break;
+        }
+
+        UnitState = newstate;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enterance")
+        {
+            Entrance enter = collision.GetComponent<Entrance>();
+            BaseBuilding building = enter.GetComponentInParent<BaseBuilding>();
+            bool noChecked = true;
+            for(int i = 0; i < MapIndexList.Count; i++)
+            {
+                if (building.Index.Equals(MapIndexList[i]))
+                {
+                    noChecked = false;
+                    continue;
+                }
+            }
+            if (noChecked)
+                return;
+
+            enter.IsEnter = true;
+            BuildingOutPosition = enter.GetComponentInParent<BaseBuilding>().GetRandomEntrance().transform.position;
+            ChangeState(UNIT_STATE.IN_BUILDING);
+        }
     }
 }
