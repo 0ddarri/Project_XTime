@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : Singleton<CameraManager>
 {
     [SerializeField] CameraBase[] Cams;
     [Space(5.0f)]
@@ -36,5 +36,10 @@ public class CameraManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F10))
             SwapCurrentCamera();
         FollowMouse();
+    }
+
+    public void test()
+    {
+        print("asdfasdfasdfasdfasdfasdf");
     }
 }

@@ -31,6 +31,14 @@ public class UnitManager : MonoBehaviour
         Debug.Log(result + "%");
     }
 
+    void DiscountConfidence(int min, int max)
+    {
+        for (int i = 0; i < UnitList.Count; i++)
+        {
+            UnitList[i].Confidence -= Random.Range(min, max);
+        }
+    }
+
     private void Update()
     {
         CalcConfidenceAverage();

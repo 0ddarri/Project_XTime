@@ -10,6 +10,7 @@ public enum CAMERA_TYPE
 
 public class CameraBase : MonoBehaviour
 {
+    [Header("Settings")]
     public CAMERA_TYPE Type;
     public Camera Camera;
     [Space(5.0f)]
@@ -19,20 +20,45 @@ public class CameraBase : MonoBehaviour
     [SerializeField] float MaxOrthoSize = 10;
     [SerializeField] float MinOrthoSize = 3;
     [SerializeField] float OrthoScalingSpeed = 2;
+    [Space(5.0f)]
+    [SerializeField] string CollisionTag;
+
+    [Header("Image")]
+    [SerializeField] SpriteRenderer LUp;
+    [SerializeField] SpriteRenderer LDown;
+    [SerializeField] SpriteRenderer RUp;
+    [SerializeField] SpriteRenderer RDown;
+
+    [Header("Raycast Settings")]
+    [SerializeField] float MaxDistance;
+
+    public bool TargetChecked = false;
+
+    bool IsChecked()
+    {
+        RaycastHit hit;
+        Vector3 size = new Vector3(Width, Height, 5);
+        Physics.BoxCast(Camera.transform.position, size / 2, transform.forward, out hit, transform.rotation, MaxDistance);
+        if (hit.collider != null && hit.collider.gameObject.tag.Equals(CollisionTag))
+        {
+            return true;
+        }
+        return false;
+    }
 
     public IEnumerator CaptureCamera()
     {
-        yield return null;
-
         Camera.enabled = true;
         Camera.Render();
         Camera.enabled = false;
+        TargetChecked = IsChecked();
+        yield return null;
     }
 
     void UpdateWidthHeight()
     {
         Width = Camera.orthographicSize;
-        Height = Width * Screen.width / Screen.height;
+        Height = Width * Screen.height / Screen.width;
     }
 
     void SetOrthoSize()
@@ -51,17 +77,60 @@ public class CameraBase : MonoBehaviour
 
     void SetEdgeSprite()
     {
+        Vector2 camPixel = new Vector2(Camera.pixelWidth, Camera.pixelHeight);
 
+        Vector3 camLUpPos = Camera.ScreenToWorldPoint(new Vector3(0, camPixel.y, 0));
+        Vector2 LUpSpriteSize = LUp.bounds.size * 0.5f;
+        Vector2 LUpPos = new Vector2(camLUpPos.x + LUpSpriteSize.x, camLUpPos.y - LUpSpriteSize.y);
+        LUp.gameObject.transform.position = LUpPos;
+
+        Vector3 camRUpPos = Camera.ScreenToWorldPoint(new Vector3(camPixel.x, camPixel.y, 0));
+        Vector2 RUpSpriteSize = RUp.bounds.size * 0.5f;
+        Vector2 RUpPos = new Vector2(camRUpPos.x - RUpSpriteSize.x, camRUpPos.y - RUpSpriteSize.y);
+        RUp.gameObject.transform.position = RUpPos;
+
+        Vector3 camLDownPos = Camera.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector2 LDownSpriteSize = LDown.bounds.size * 0.5f;
+        Vector2 LDownPos = new Vector2(camLDownPos.x + LDownSpriteSize.x, camLDownPos.y + LDownSpriteSize.y);
+        LDown.gameObject.transform.position = LDownPos;
+
+        Vector3 camRDownPos = Camera.ScreenToWorldPoint(new Vector3(camPixel.x, 0, 0));
+        Vector2 RDownSpriteSize = RDown.bounds.size * 0.5f;
+        Vector2 RDownPos = new Vector2(camRDownPos.x - RDownSpriteSize.x, camRDownPos.y + RDownSpriteSize.y);
+        RDown.gameObject.transform.position = RDownPos;
     }
 
     private void Update()
     {
         UpdateWidthHeight();
         SetOrthoSize();
-        if(Input.GetKeyDown(KeyCode.F11))
+        SetEdgeSprite();
+        if (Input.GetKeyDown(KeyCode.F11))
         {
             StartCoroutine(CaptureCamera());
+            CameraManager.Ins.test();
         }
     }
 
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        RaycastHit hit;
+        Vector3 size = new Vector3(Camera.orthographicSize, Camera.orthographicSize * Screen.height / Screen.width, 5);
+        bool check = Physics.BoxCast(Camera.transform.position, size / 2, transform.forward, out hit, transform.rotation, MaxDistance);
+        if(check)
+        {
+            Gizmos.DrawWireCube(Camera.transform.position + transform.forward * hit.distance, size);
+            Debug.Log("체크");
+        }
+        else
+        {
+            Gizmos.DrawRay(Camera.transform.position, transform.forward * MaxDistance);
+            Debug.Log("노체크");
+        }
+
+
+    }
 }
