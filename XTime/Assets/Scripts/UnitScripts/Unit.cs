@@ -12,9 +12,7 @@ public enum UNIT_STATE // 해당 유닛이 떠났는지 안떠났는지
 
 public enum MOVEMENT_STATE // 움직임 상태, 기후별로 다 써야한다
 {
-    NORMAL,
-    FOG,
-    YELLOW_DUST
+    NORMAL
 }
 
 public enum MOVE_DIRECTION
@@ -54,11 +52,13 @@ public class Unit : MonoBehaviour
     [SerializeField] Collider2D Collider2D;
     [SerializeField] Transform RayTransform;
     [SerializeField] float RayLength;
+    [SerializeField] ClimateInteractIconSystem ClimateIcon;
     
     [Header ("State")]
     public float Confidence; // 신뢰도
     [SerializeField] UNIT_STATE UnitState;
     [SerializeField] MOVEMENT_STATE MovementState;
+    [SerializeField] ClimateTrigger ClimateTrigger;
     [Header ("Status")]
     [SerializeField] float MovementSpeed;
     [SerializeField] float ChangeMoveTimeMin;
@@ -90,6 +90,8 @@ public class Unit : MonoBehaviour
         BuildingStayTime = Random.Range(BuildingStayMinTime, BuildingStayMaxTime);
         CurrentBuildingStayTime = 0.0f;
         MapIndexList = SceneManager.Ins.Scene.buildingManager.GetRandomBuildingNum();
+
+        ClimateIcon.SetAllInvisible();
     }
 
     private void Start()
@@ -120,6 +122,29 @@ public class Unit : MonoBehaviour
         }
     }
 
+    void SetClimateInteract()
+    {
+        ENV_TYPE type = ClimateTrigger.TriggeredClimate;
+        switch (type)
+        {
+            case ENV_TYPE.NONE:
+                {
+                    ClimateIcon.SetAllInvisible();
+                }
+                break;
+            case ENV_TYPE.MIST:
+                {
+
+                }
+                break;
+            case ENV_TYPE.YELLOW_DUST:
+                {
+                    ClimateIcon.SetIcon(ENV_TYPE.YELLOW_DUST);
+                }
+                break;
+        }
+    }
+
     private void Update()
     {
         switch (UnitState)
@@ -127,6 +152,7 @@ public class Unit : MonoBehaviour
             case UNIT_STATE.NORMAL:
                 {
                     StaticTileMove();
+                    SetClimateInteract();
                     BeforeTileVisualize.transform.position = BeforeTilePos;
                 }
                 break;

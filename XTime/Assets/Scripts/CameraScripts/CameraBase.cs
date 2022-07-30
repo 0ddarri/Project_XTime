@@ -13,6 +13,8 @@ public class CameraBase : MonoBehaviour
     [Header("Settings")]
     public CAMERA_TYPE Type;
     public Camera Camera;
+    [SerializeField] float CameraShotDelay;
+    float CurrentCamShotTime = 0.0f;
     [Space(5.0f)]
     [SerializeField] float Width;
     [SerializeField] float Height;
@@ -33,6 +35,7 @@ public class CameraBase : MonoBehaviour
     [SerializeField] float MaxDistance;
 
     public bool TargetChecked = false;
+    public bool IsFilmed = false;
 
     bool IsChecked()
     {
@@ -52,6 +55,8 @@ public class CameraBase : MonoBehaviour
         Camera.Render();
         Camera.enabled = false;
         TargetChecked = IsChecked();
+        CurrentCamShotTime = 0.0f;
+        IsFilmed = true;
         yield return null;
     }
 
@@ -105,10 +110,10 @@ public class CameraBase : MonoBehaviour
         UpdateWidthHeight();
         SetOrthoSize();
         SetEdgeSprite();
-        if (Input.GetKeyDown(KeyCode.F11))
+        CurrentCamShotTime += Time.deltaTime;
+        if (Input.GetMouseButtonDown(0) && CurrentCamShotTime > CameraShotDelay)
         {
             StartCoroutine(CaptureCamera());
-            CameraManager.Ins.test();
         }
     }
 
@@ -130,7 +135,5 @@ public class CameraBase : MonoBehaviour
             Gizmos.DrawRay(Camera.transform.position, transform.forward * MaxDistance);
             Debug.Log("≥Î√º≈©");
         }
-
-
     }
 }

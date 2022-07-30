@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ENV_TYPE
+{
+    NONE, // 기본기후
+    MIST, // 안개
+    YELLOW_DUST // 황사
+}
+
 [System.Serializable]
 public class LevelClimate // 단계별 이상기후 리스트
 {

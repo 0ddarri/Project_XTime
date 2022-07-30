@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /// <summary>
 /// 이상기후 부모클래스
 /// </summary>
 public class BaseClimate : MonoBehaviour
 {
-    [Header ("Climate Base Settings")]
+    [Header("Climate Base Settings")]
+    public ENV_TYPE Type;
     public bool IsPlaying = false; // 기후 실행중인지 확인
     [SerializeField] protected float CurrentPlayingTime = 0.0f; // 기후 실행시간
     [SerializeField] protected float MinPlayingTime;
     [SerializeField] protected float MaxPlayingTime;
-    
 
     public virtual void Initialize() // 초기화 함수
     {
@@ -40,5 +39,10 @@ public class BaseClimate : MonoBehaviour
     {
         IsPlaying = false;
         gameObject.SetActive(false);
+    }
+
+    public BaseClimate GetComp()
+    {
+        return this;
     }
 }
