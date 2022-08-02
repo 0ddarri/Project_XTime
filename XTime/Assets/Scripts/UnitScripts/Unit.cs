@@ -71,6 +71,8 @@ public class Unit : MonoBehaviour
 
     [SerializeField] List<Vector3> nearPos = new List<Vector3>();
 
+    [SerializeField] int TileNum;
+
     float tileMoveCurTime = 0.0f;
     Vector3 BeforeTilePos;
     Vector3 ResultNearPos;
@@ -84,7 +86,7 @@ public class Unit : MonoBehaviour
     public void Initialize()
     {
         Confidence = 100;
-        BeforeTilePos = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(SceneManager.Ins.Scene.mapManager.GetCellPos(transform.position));
+        BeforeTilePos = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(SceneManager.Ins.Scene.mapManager.GetCellPos(transform.position, TileNum), TileNum);
         ResultNearPos = BeforeTilePos;
 
         BuildingStayTime = Random.Range(BuildingStayMinTime, BuildingStayMaxTime);
@@ -92,6 +94,8 @@ public class Unit : MonoBehaviour
         MapIndexList = SceneManager.Ins.Scene.buildingManager.GetRandomBuildingNum();
 
         ClimateIcon.SetAllInvisible();
+
+        TileNum = Random.Range(0, SceneManager.Ins.Scene.mapManager.TilemapList.Count);
     }
 
     private void Start()
@@ -106,7 +110,7 @@ public class Unit : MonoBehaviour
         {
             tileMoveCurTime = 0.0f;
             Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
-            nearPos = SceneManager.Ins.Scene.mapManager.GetNearMovableWorldCellPos(CheckPos);
+            nearPos = SceneManager.Ins.Scene.mapManager.GetNearMovableWorldCellPos(CheckPos, TileNum);
 
             int random = 0;
             if(nearPos.Count != 1)
@@ -171,8 +175,8 @@ public class Unit : MonoBehaviour
 
     void StateInit_Normal()
     {
-        Vector3Int cellpos = SceneManager.Ins.Scene.mapManager.GetCellPos(BuildingOutPosition);
-        transform.position = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(cellpos);
+        Vector3Int cellpos = SceneManager.Ins.Scene.mapManager.GetCellPos(BuildingOutPosition, TileNum);
+        transform.position = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(cellpos, TileNum);
         Invoke("INV_ColliderOn", 1.0f);
     }
 
