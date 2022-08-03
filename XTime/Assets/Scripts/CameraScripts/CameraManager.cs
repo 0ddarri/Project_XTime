@@ -11,6 +11,9 @@ public class CameraManager : Singleton<CameraManager>
     [SerializeField] TVBase EnvCheckTV;
     [SerializeField] TVBase PolCheckTV;
     [SerializeField] List<TVBase> TVList = new List<TVBase>();
+    [Header("Button")]
+    [SerializeField] IsoButton EnvUploadButton;
+    [SerializeField] IsoButton PolUploadButton;
 
     public bool IsEnvChecked = false; // È¯°æ ÀßÂïÇû´ÂÁö
     public bool IsPolChecked = false; // ¿À¿° ÀßÂïÇû´ÂÁö
@@ -57,19 +60,36 @@ public class CameraManager : Singleton<CameraManager>
         GetCurrentCamera().transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
+    void SetCameraAvail()
+    {
+        if(Input.GetKeyDown(KeyCode.F9))
+        {
+            GetCurrentCamera().CameraAvail = !GetCurrentCamera().CameraAvail;
+            Debug.Log("Ä«¸Þ¶ó Ä×´Ù°Î´Ù");
+        }
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.F10))
             SwapCurrentCamera();
-        if(Input.GetKeyDown(KeyCode.F9))
+        if(EnvUploadButton.IsClicked)
         {
             UploadNews(CAMERA_TYPE.ENV);
         }
-        if (Input.GetKeyDown(KeyCode.F8))
+        if (PolUploadButton.IsClicked)
         {
             UploadNews(CAMERA_TYPE.POL);
         }
         FollowMouse();
+        if(EnvUploadButton.IsEntered || PolUploadButton.IsEntered)
+        {
+            GetCurrentCamera().CameraAvail = false;
+        }
+        else
+        {
+            SetCameraAvail();
+        }
     }
 
     public void UploadNews(CAMERA_TYPE type)

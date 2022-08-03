@@ -36,6 +36,32 @@ public class CameraBase : MonoBehaviour
 
     public bool TargetChecked = false;
     public bool IsFilmed = false;
+    bool CamAvail = true;
+    public bool CameraAvail
+    {
+        get
+        {
+            return CamAvail;
+        }
+        set
+        {
+            CamAvail = value;
+            if(CamAvail)
+            {
+                LUp.color = Color.white;
+                LDown.color = Color.white;
+                RUp.color = Color.white;
+                RDown.color = Color.white;
+            }
+            else
+            {
+                LUp.color = Color.clear;
+                LDown.color = Color.clear;
+                RUp.color = Color.clear;
+                RDown.color = Color.clear;
+            }
+        }
+    }
 
     bool IsChecked()
     {
@@ -107,13 +133,16 @@ public class CameraBase : MonoBehaviour
 
     private void Update()
     {
-        UpdateWidthHeight();
-        SetOrthoSize();
-        SetEdgeSprite();
-        CurrentCamShotTime += Time.deltaTime;
-        if (Input.GetMouseButtonDown(0) && CurrentCamShotTime > CameraShotDelay)
+        if(CameraAvail)
         {
-            StartCoroutine(CaptureCamera());
+            UpdateWidthHeight();
+            SetOrthoSize();
+            SetEdgeSprite();
+            CurrentCamShotTime += Time.deltaTime;
+            if (Input.GetMouseButtonDown(0) && CurrentCamShotTime > CameraShotDelay)
+            {
+                StartCoroutine(CaptureCamera());
+            }
         }
     }
 
