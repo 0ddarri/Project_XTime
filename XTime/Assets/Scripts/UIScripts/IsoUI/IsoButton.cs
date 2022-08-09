@@ -12,6 +12,11 @@ public class IsoButton : MonoBehaviour
         IsClicked = true;
     }
 
+    private void OnMouseUp()
+    {
+        IsClicked = false;
+    }
+
     private void OnMouseEnter()
     {
         IsEntered = true;

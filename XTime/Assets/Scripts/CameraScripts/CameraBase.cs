@@ -5,7 +5,8 @@ using UnityEngine;
 public enum CAMERA_TYPE
 {
     ENV, // 이상기후
-    POL // 오염행위
+    POL, // 오염행위
+    NONE // 현재 보도된 종류 없을때
 }
 
 public class CameraBase : MonoBehaviour
@@ -157,12 +158,10 @@ public class CameraBase : MonoBehaviour
         if(check)
         {
             Gizmos.DrawWireCube(Camera.transform.position + transform.forward * hit.distance, size);
-            Debug.Log("체크");
         }
         else
         {
             Gizmos.DrawRay(Camera.transform.position, transform.forward * MaxDistance);
-            Debug.Log("노체크");
         }
     }
 }

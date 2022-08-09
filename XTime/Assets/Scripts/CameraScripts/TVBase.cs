@@ -12,12 +12,12 @@ public class TVBase : MonoBehaviour
 
     public void Initialize()
     {
-        Mesh.materials[0] = DefaultMaterial;
+        Mesh.material = DefaultMaterial;
     }
 
     public void SetMaterial(CAMERA_TYPE type)
     {
-        if(type.Equals(CAMERA_TYPE.ENV))
+        if (type.Equals(CAMERA_TYPE.ENV))
             Mesh.material = CameraEnvMaterial;
         else
             Mesh.material = CameraPolMaterial;

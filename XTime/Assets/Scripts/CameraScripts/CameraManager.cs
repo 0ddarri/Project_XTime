@@ -8,22 +8,18 @@ public class CameraManager : Singleton<CameraManager>
     [Space(5.0f)]
     [SerializeField] CAMERA_TYPE CurrentCamera;
     [Header("TV")]
-    [SerializeField] TVBase EnvCheckTV;
-    [SerializeField] TVBase PolCheckTV;
-    [SerializeField] List<TVBase> TVList = new List<TVBase>();
-    [Header("Button")]
+    [SerializeField] TVManager TVManager;
+    [Header("Buttons")]
     [SerializeField] IsoButton EnvUploadButton;
     [SerializeField] IsoButton PolUploadButton;
+    public IsoButton CamChangeButton;
 
     public bool IsEnvChecked = false; // È¯°æ ÀßÂïÇû´ÂÁö
     public bool IsPolChecked = false; // ¿À¿° ÀßÂïÇû´ÂÁö
 
     public void Initialize()
     {
-        for(int i = 0; i < TVList.Count; i++)
-        {
-            TVList[i].Initialize();
-        }
+        TVManager.Initialize();
     }
 
     private void Start()
@@ -31,7 +27,7 @@ public class CameraManager : Singleton<CameraManager>
         Initialize();
     }
 
-    CameraBase GetCurrentCamera()
+    public CameraBase GetCurrentCamera()
     {
         return FindCamera(CurrentCamera);
     }
@@ -71,29 +67,42 @@ public class CameraManager : Singleton<CameraManager>
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F10))
+        if(CamChangeButton.IsClicked)
+        {
             SwapCurrentCamera();
+            CamChangeButton.IsClicked = false;
+        }
         if(EnvUploadButton.IsClicked)
         {
             UploadNews(CAMERA_TYPE.ENV);
+            EnvUploadButton.IsClicked = false;
         }
         if (PolUploadButton.IsClicked)
         {
             UploadNews(CAMERA_TYPE.POL);
+            PolUploadButton.IsClicked = false;
         }
         FollowMouse();
-        if(EnvUploadButton.IsEntered || PolUploadButton.IsEntered)
+        if(EnvUploadButton.IsEntered || PolUploadButton.IsEntered || CamChangeButton.IsEntered)
         {
             GetCurrentCamera().CameraAvail = false;
         }
         else
         {
-            SetCameraAvail();
+            GetCurrentCamera().CameraAvail = true;
         }
     }
 
     public void UploadNews(CAMERA_TYPE type)
     {
+        if (TVManager.IsTvUploaded)
+            return;
+
+        if(GetCurrentCamera().Type.Equals(type))
+        {
+            SwapCurrentCamera();
+        }
+
         CameraBase cam = FindCamera(type);
         if (!cam.IsFilmed)
             return;
@@ -114,11 +123,7 @@ public class CameraManager : Singleton<CameraManager>
             else
                 IsPolChecked = false;
         }
-
-        for(int i = 0; i < TVList.Count; i++)
-        {
-            TVList[i].SetMaterial(type);
-        }
+        TVManager.Upload(type);
         Debug.Log("ÃÔ¿µ! : " + type);
     }
 }
