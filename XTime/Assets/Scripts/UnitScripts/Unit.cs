@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public enum UNIT_STATE // ÇØ´ç À¯´ÖÀÌ ¶°³µ´ÂÁö ¾È¶°³µ´ÂÁö
 {
@@ -55,8 +54,8 @@ public class Unit : MonoBehaviour
     [SerializeField] ClimateInteractIconSystem ClimateIcon;
     
     [Header ("State")]
-    public float Confidence; // ½Å·Úµµ
-    [SerializeField] UNIT_STATE UnitState;
+    [SerializeField] float ConfidenceCount; // ½Å·Úµµ
+    public UNIT_STATE UnitState;
     [SerializeField] MOVEMENT_STATE MovementState;
     [SerializeField] ClimateTrigger ClimateTrigger;
     [Header ("Status")]
@@ -82,6 +81,25 @@ public class Unit : MonoBehaviour
 
     [Header("Building Info")]
     [SerializeField] List<int> MapIndexList = new List<int>();
+
+    public bool IsSetConFidenceByEnv = false;
+    GameObject CurrentEnv = null;
+
+    public float Confidence
+    {
+        get
+        {
+            return ConfidenceCount;
+        }
+        set
+        {
+            ConfidenceCount = value;
+            if (ConfidenceCount > 100)
+                ConfidenceCount = 100;
+            if(ConfidenceCount < 0)
+                ConfidenceCount = 0;
+        }
+    }
 
     public void Initialize()
     {
@@ -138,7 +156,6 @@ public class Unit : MonoBehaviour
                 break;
             case ENV_TYPE.MIST:
                 {
-
                 }
                 break;
             case ENV_TYPE.YELLOW_DUST:
@@ -147,6 +164,24 @@ public class Unit : MonoBehaviour
                 }
                 break;
         }
+    }
+
+
+    void CheckLeave()
+    {
+        if(Confidence < 40)
+        {
+            ChangeState(UNIT_STATE.LEAVED);
+        }
+    }
+    
+    void SetEnvInteract()
+    {
+        if (!IsSetConFidenceByEnv)
+            return;
+
+        if (!CurrentEnv.activeSelf)
+            IsSetConFidenceByEnv = false;
     }
 
     private void Update()
@@ -158,6 +193,8 @@ public class Unit : MonoBehaviour
                     StaticTileMove();
                     SetClimateInteract();
                     BeforeTileVisualize.transform.position = BeforeTilePos;
+                    CheckLeave();
+                    SetEnvInteract();
                 }
                 break;
             case UNIT_STATE.IN_BUILDING:
@@ -168,6 +205,11 @@ public class Unit : MonoBehaviour
                         CurrentBuildingStayTime = 0.0f;
                         ChangeState(UNIT_STATE.NORMAL);
                     }
+                }
+                break;
+            case UNIT_STATE.LEAVED:
+                {
+
                 }
                 break;
         }
@@ -225,6 +267,26 @@ public class Unit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.tag.Equals("Env"))
+        {
+            if (IsSetConFidenceByEnv)
+                return;
+
+            if(!collision.GetComponentInParent<ClimateType>().Type.Equals(ENV_TYPE.NONE))
+            {
+                IsSetConFidenceByEnv = true;
+                CurrentEnv = collision.GetComponentInParent<ClimateType>().gameObject;
+                if (CameraManager.Ins.IsCameraCompleteFilmed(CAMERA_TYPE.ENV))
+                {
+                    Confidence += Random.Range(1, 6);
+                }
+                else
+                {
+                    Confidence -= Random.Range(30, 40);
+                }
+            }
+        }
+
         if (collision.tag == "Enterance")
         {
             Entrance enter = collision.GetComponent<Entrance>();

@@ -65,6 +65,22 @@ public class CameraManager : Singleton<CameraManager>
         }
     }
 
+    public bool IsCameraCompleteFilmed(CAMERA_TYPE type)
+    {
+        if(type.Equals(CAMERA_TYPE.ENV))
+        {
+            if(IsEnvChecked && FindCamera(type).IsFilmed)
+                return true;
+            return false;
+        }
+        else
+        {
+            if (IsPolChecked && FindCamera(type).IsFilmed)
+                return true;
+            return false;
+        }
+    }
+
     private void Update()
     {
         if(CamChangeButton.IsClicked)
