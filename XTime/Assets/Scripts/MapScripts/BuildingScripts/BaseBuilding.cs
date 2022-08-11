@@ -21,6 +21,14 @@ public class BaseBuilding : MonoBehaviour
         return EntranceList[random];
     }
 
+    public void SetEntranceActive(bool value)
+    {
+        for (int i = 0; i < EntranceList.Count; i++)
+        {
+            EntranceList[i].gameObject.SetActive(false);
+        }
+    }
+
     void CheckEnter()
     {
         for(int i = 0; i < EntranceList.Count; i++)

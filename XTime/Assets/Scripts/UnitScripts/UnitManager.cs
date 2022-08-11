@@ -12,6 +12,7 @@ public class UnitManager : MonoBehaviour
     [SerializeField] List<Unit> UnitList = new List<Unit>();
 
     [SerializeField] Text TestConfidenceText;
+    [SerializeField] Transform ConfidenceFill;
     [SerializeField] Text TestPopulationText;
 
     private void Start()
@@ -27,22 +28,29 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    void SetConFidenceFill(float value)
+    {
+        Vector3 scale = ConfidenceFill.lossyScale;
+        ConfidenceFill.localScale = new Vector3(value, scale.y, scale.z);
+    }
+
     void CalcConfidenceAverage()
     {
-        float result = 0.0f;
+        float percent = 0.0f;
 
         for(int i = 0; i < UnitList.Count; i++)
         {
-            result += UnitList[i].Confidence;
+            percent += UnitList[i].Confidence;
         }
-        Debug.Log("¸ðµÎ´õÇÔ : " + result);
+        Debug.Log("¸ðµÎ´õÇÔ : " + percent);
 
-        result /= UnitList.Count;
-        Debug.Log("³ª´® : " + result);
+        float val = percent / UnitList.Count;
+        Debug.Log("³ª´® : " + val);
+        SetConFidenceFill(val * 0.01f);
 
-        ConfidenceLevel = result;
-        Debug.Log(result + "%");
-        TestConfidenceText.text = "½Å·Úµµ : " + result + "%";
+        ConfidenceLevel = val;
+        Debug.Log(val + "%");
+        TestConfidenceText.text = "½Å·Úµµ : " + val + "%";
     }
 
     int CheckAvailUnit()

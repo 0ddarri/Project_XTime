@@ -113,7 +113,7 @@ public class Unit : MonoBehaviour
 
         ClimateIcon.SetAllInvisible();
 
-        TileNum = Random.Range(0, SceneManager.Ins.Scene.mapManager.TilemapList.Count);
+        //TileNum = Random.Range(0, SceneManager.Ins.Scene.mapManager.TilemapList.Count);
     }
 
     private void Start()

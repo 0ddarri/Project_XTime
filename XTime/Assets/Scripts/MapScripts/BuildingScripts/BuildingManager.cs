@@ -5,6 +5,10 @@ using UnityEngine;
 public class BuildingManager : MonoBehaviour
 {
     public List<BaseBuilding> Buildings = new List<BaseBuilding>();
+    [SerializeField] float CompanyTimeMin = 0.0f;
+    [SerializeField] float CompanyTimeMax = 0.0f;
+    [SerializeField] float CompanyTime = 0.0f;
+    [SerializeField] float CurrentCompanyTime = 0.0f;
 
     public void Initialize()
     {
@@ -12,6 +16,7 @@ public class BuildingManager : MonoBehaviour
         {
             Buildings[i].Initialize();
         }
+        CurrentCompanyTime = 0.0f;
     }
 
     public List<int> GetRandomBuildingNum()
@@ -27,5 +32,19 @@ public class BuildingManager : MonoBehaviour
         }
 
         return num;
+    }
+
+    public void SetCompany()
+    {
+        CurrentCompanyTime += Time.deltaTime;
+        if(CurrentCompanyTime > CompanyTime)
+        {
+            CurrentCompanyTime = 0.0f;
+            CompanyTime = Random.Range(CompanyTimeMin, CompanyTimeMax);
+            
+            for(int i = 0; i < Buildings.Count; i++)
+            {
+            }
+        }
     }
 }
