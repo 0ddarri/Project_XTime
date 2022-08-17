@@ -108,18 +108,81 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3
-        y: 1857
-        width: 188
-        height: 188
+        y: 1859
+        width: 186
+        height: 186
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.125}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef21bbc71b3cd12439c6970aaedbf239
-      internalID: 597706422
+      spriteID: 88a74369cf014bd46b8733d1fc3d6c22
+      internalID: -644327561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilemapSheet_1
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1859
+        width: 186
+        height: 186
+      alignment: 9
+      pivot: {x: 0.5, y: 0.125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c3a616ee452f154f876efbd0d8c51d6
+      internalID: -1511637216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilemapSheet_2
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 1859
+        width: 186
+        height: 186
+      alignment: 9
+      pivot: {x: 0.5, y: 0.125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cd0d7ac048bf544cb10d5dd60b37f0c
+      internalID: 809519370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilemapSheet_3
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 1862
+        width: 186
+        height: 186
+      alignment: 9
+      pivot: {x: 0.5, y: 0.125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acc3a989cb35f8f478409e3c13ab12ca
+      internalID: -334370980
       vertices: []
       indices: 
       edges: []
@@ -135,7 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      TilemapSheet_1: -1511637216
+      TilemapSheet_2: 809519370
       TilemapSheet_0: -644327561
+      TilemapSheet_3: -334370980
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

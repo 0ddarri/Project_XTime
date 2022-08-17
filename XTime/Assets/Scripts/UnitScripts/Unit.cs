@@ -52,6 +52,7 @@ public class Unit : MonoBehaviour
     [SerializeField] Transform RayTransform;
     [SerializeField] float RayLength;
     [SerializeField] ClimateInteractIconSystem ClimateIcon;
+    [SerializeField] float CheckOffset = 0.25f;
     
     [Header ("State")]
     [SerializeField] float ConfidenceCount; // ½Å·Úµµ
@@ -104,7 +105,7 @@ public class Unit : MonoBehaviour
     public void Initialize()
     {
         Confidence = 100;
-        BeforeTilePos = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(SceneManager.Ins.Scene.mapManager.GetCellPos(transform.position, TileNum), TileNum);
+        BeforeTilePos = SceneManager.Ins.Scene.MapManager.GetCellWorldPos(SceneManager.Ins.Scene.MapManager.GetCellPos(transform.position, TileNum), TileNum);
         ResultNearPos = BeforeTilePos;
 
         BuildingStayTime = Random.Range(BuildingStayMinTime, BuildingStayMaxTime);
@@ -112,8 +113,6 @@ public class Unit : MonoBehaviour
         MapIndexList = SceneManager.Ins.Scene.buildingManager.GetRandomBuildingNum();
 
         ClimateIcon.SetAllInvisible();
-
-        //TileNum = Random.Range(0, SceneManager.Ins.Scene.mapManager.TilemapList.Count);
     }
 
     private void Start()
@@ -123,12 +122,12 @@ public class Unit : MonoBehaviour
 
     void StaticTileMove()
     {
-        tileMoveCurTime += Time.deltaTime;
-        if(tileMoveCurTime > 0.2f)
+        tileMoveCurTime += Time.deltaTime * 2;
+        if(tileMoveCurTime > 1.0f)
         {
             tileMoveCurTime = 0.0f;
-            Vector3 CheckPos = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
-            nearPos = SceneManager.Ins.Scene.mapManager.GetNearMovableWorldCellPos(CheckPos, TileNum);
+            Vector3 CheckPos = new Vector3(ResultNearPos.x, ResultNearPos.y - CheckOffset, ResultNearPos.z);
+            nearPos = SceneManager.Ins.Scene.MapManager.GetNearMovableWorldCellPos(CheckPos, TileNum);
 
             int random = 0;
             if(nearPos.Count != 1)
@@ -138,10 +137,11 @@ public class Unit : MonoBehaviour
                     random = Random.Range(0, nearPos.Count);
             }
 
-            BeforeTilePos = new Vector3(ResultNearPos.x, ResultNearPos.y -0.25f, ResultNearPos.z);
-            ResultNearPos = new Vector3(nearPos[random].x, nearPos[random].y + 0.25f, nearPos[random].z);
-            transform.position = ResultNearPos;
+            BeforeTilePos = new Vector3(ResultNearPos.x, ResultNearPos.y - CheckOffset, ResultNearPos.z);
+            ResultNearPos = new Vector3(nearPos[random].x, nearPos[random].y + CheckOffset, nearPos[random].z);
         }
+        Vector3 RBeforePos = new Vector3(BeforeTilePos.x, BeforeTilePos.y + CheckOffset, BeforeTilePos.z);
+        transform.position = Vector3.Lerp(RBeforePos, ResultNearPos, tileMoveCurTime);
     }
 
     void SetClimateInteract()
@@ -217,8 +217,8 @@ public class Unit : MonoBehaviour
 
     void StateInit_Normal()
     {
-        Vector3Int cellpos = SceneManager.Ins.Scene.mapManager.GetCellPos(BuildingOutPosition, TileNum);
-        transform.position = SceneManager.Ins.Scene.mapManager.GetCellWorldPos(cellpos, TileNum);
+        Vector3Int cellpos = SceneManager.Ins.Scene.MapManager.GetCellPos(BuildingOutPosition, TileNum);
+        transform.position = SceneManager.Ins.Scene.MapManager.GetCellWorldPos(cellpos, TileNum);
         Invoke("INV_ColliderOn", 1.0f);
     }
 

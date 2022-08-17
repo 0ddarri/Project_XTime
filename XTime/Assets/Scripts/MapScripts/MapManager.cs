@@ -10,9 +10,42 @@ public class MapManager : MonoBehaviour
 
     [SerializeField] List<TileData> TileDatas = new List<TileData>();
 
-    Dictionary<TileBase, TileData> DataFromTiles;
+    [SerializeField] Dictionary<TileBase, TileData> DataFromTiles;
 
+    [Header("Intro Animation Settings")]
+    [SerializeField] List<GameObject> MapObjList = new List<GameObject>();
+    [SerializeField] List<Vector3> MapObjOriginTransform = new List<Vector3>();
+    [SerializeField] float NextObjDelay;
+    [SerializeField] float ObjMoveSpeed;
 
+    public void Initialize()
+    {
+        for (int i = 0; i < MapObjList.Count; i++)
+        {
+            Vector3 pos = MapObjList[i].transform.position;
+            MapObjOriginTransform.Add(pos);
+            MapObjList[i].transform.position = new Vector3(pos.x, pos.y + 50.0f, pos.z);
+        }
+    }
+
+    public IEnumerator StartObjAnimation()
+    {
+        Debug.Log("인트로시작");
+        for(int i = 0; i < MapObjList.Count; i++)
+        {
+            StartCoroutine(SetObjPosition(i));
+            yield return new WaitForSeconds(NextObjDelay);
+        }
+    }
+
+    public IEnumerator SetObjPosition(int index)
+    {
+        while(!Mathf.Approximately(MapObjOriginTransform[index].y, MapObjList[index].transform.position.y))
+        {
+            MapObjList[index].transform.position = Vector3.Lerp(MapObjList[index].transform.position, MapObjOriginTransform[index], Time.deltaTime * ObjMoveSpeed);
+            yield return null;
+        }
+    }
 
     private void Awake()
     {
@@ -24,13 +57,12 @@ public class MapManager : MonoBehaviour
                 DataFromTiles.Add(TileDatas[i].Tiles[j], TileDatas[i]);
             }
         }
+        Debug.Log(DataFromTiles.Count);
     }
 
     public Vector3Int GetCellPos(Vector3 pos, int num)
     {
         Vector3Int cellPos = TilemapList[num].WorldToCell(pos);
-        //Tile.SetTileFlags(cellPos, TileFlags.None);
-        //Tile.SetColor(cellPos, Color.clear);
         return cellPos;
     }
 

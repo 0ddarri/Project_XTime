@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class IntroUIManager : MonoBehaviour
 {
     [SerializeField] IsoButton StartButton;
     [SerializeField] IsoButton SettingsButton;
     [SerializeField] IsoButton ExitButton;
+
+    [Header("Animation")]
+    [SerializeField] PlayableDirector GameStartAnimation;
 
     public void Initialize()
     {
@@ -22,6 +26,7 @@ public class IntroUIManager : MonoBehaviour
             StartButton.IsClicked = false;
             Initialize();
             SceneManager.Ins.Scene.ChangeState(GAME_STATE.INGAME);
+            GameStartAnimation.Play();
             Debug.Log("Start");
         }
 

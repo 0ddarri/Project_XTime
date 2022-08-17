@@ -8,7 +8,7 @@ public class BaseScene : MonoBehaviour
 {
     [SerializeField] GAME_STATE State;
     [SerializeField] IntroUIManager IntroUIManager;
-    public MapManager mapManager;
+    public MapManager MapManager;
     public BuildingManager buildingManager;
 
     private void Awake()
@@ -20,6 +20,7 @@ public class BaseScene : MonoBehaviour
     private void Start()
     {
         IntroUIManager.Initialize();
+        MapManager.Initialize();
     }
 
     public void ChangeState(GAME_STATE newState)
@@ -55,7 +56,7 @@ public class BaseScene : MonoBehaviour
 
     void IngameInit()
     {
-
+        StartCoroutine(MapManager.StartObjAnimation());
     }
 
     void PauseInit()
