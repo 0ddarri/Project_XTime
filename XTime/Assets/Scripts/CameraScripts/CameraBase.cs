@@ -134,7 +134,10 @@ public class CameraBase : MonoBehaviour
 
     private void Update()
     {
-        if(CameraAvail)
+        if (SceneManager.Ins.Scene.IsState(GAME_STATE.INTRO))
+            return;
+
+        if (CameraAvail)
         {
             UpdateWidthHeight();
             SetOrthoSize();

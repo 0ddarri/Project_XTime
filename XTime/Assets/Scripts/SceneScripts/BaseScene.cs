@@ -10,11 +10,17 @@ public class BaseScene : MonoBehaviour
     [SerializeField] IntroUIManager IntroUIManager;
     public MapManager MapManager;
     public BuildingManager buildingManager;
+    public UnitManager UnitManager;
 
     private void Awake()
     {
         SceneManager.Ins.Scene = this;
         ChangeState(GAME_STATE.INTRO);
+    }
+
+    public bool IsState(GAME_STATE state)
+    {
+        return State == state ? true : false;
     }
 
     private void Start()

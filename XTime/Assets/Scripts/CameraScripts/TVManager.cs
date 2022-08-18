@@ -13,6 +13,8 @@ public class TVManager : MonoBehaviour
     public CAMERA_TYPE CurrentUploadedType = CAMERA_TYPE.NONE;
     [SerializeField] float CurrentUploadStayTime = 0.0f;
 
+    public bool CurrentUploadComplete = false;
+
     public void Initialize()
     {
         for(int i = 0; i < TVBaseList.Count; i++)

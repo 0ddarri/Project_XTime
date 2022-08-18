@@ -36,6 +36,8 @@ public class MapManager : MonoBehaviour
             StartCoroutine(SetObjPosition(i));
             yield return new WaitForSeconds(NextObjDelay);
         }
+        yield return new WaitForSeconds(NextObjDelay);
+        SceneManager.Ins.Scene.UnitManager.SetUnitAlpha(1);
     }
 
     public IEnumerator SetObjPosition(int index)

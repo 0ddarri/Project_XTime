@@ -69,13 +69,13 @@ public class CameraManager : Singleton<CameraManager>
     {
         if(type.Equals(CAMERA_TYPE.ENV))
         {
-            if(IsEnvChecked && FindCamera(type).IsFilmed)
+            if(IsEnvChecked)
                 return true;
             return false;
         }
         else
         {
-            if (IsPolChecked && FindCamera(type).IsFilmed)
+            if (IsPolChecked)
                 return true;
             return false;
         }
@@ -83,6 +83,9 @@ public class CameraManager : Singleton<CameraManager>
 
     private void Update()
     {
+        if (SceneManager.Ins.Scene.IsState(GAME_STATE.INTRO))
+            return;
+
         if(CamChangeButton.IsClicked)
         {
             SwapCurrentCamera();

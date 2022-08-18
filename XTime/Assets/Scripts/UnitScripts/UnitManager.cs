@@ -18,6 +18,16 @@ public class UnitManager : MonoBehaviour
     private void Start()
     {
         Population = UnitList.Count;
+
+        SetUnitAlpha(0);
+    }
+
+    public void SetUnitAlpha(float value)
+    {
+        for (int i = 0; i < UnitList.Count; i++)
+        {
+            UnitList[i].SetAlpha(value);
+        }
     }
 
     public float Confidence

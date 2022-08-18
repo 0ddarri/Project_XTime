@@ -86,6 +86,10 @@ public class Unit : MonoBehaviour
     public bool IsSetConFidenceByEnv = false;
     GameObject CurrentEnv = null;
 
+    [Header("Sprites")]
+    [SerializeField] SpriteRenderer Fill;
+    [SerializeField] SpriteRenderer Outline;
+
     public float Confidence
     {
         get
@@ -113,6 +117,14 @@ public class Unit : MonoBehaviour
         MapIndexList = SceneManager.Ins.Scene.buildingManager.GetRandomBuildingNum();
 
         ClimateIcon.SetAllInvisible();
+    }
+
+    public void SetAlpha(float value)
+    {
+        Color color = Fill.color;
+        Fill.color = new Color(color.r, color.g, color.b, value);
+        Color outlineColor = Outline.color;
+        Outline.color = new Color(outlineColor.r, outlineColor.g, outlineColor.b, value);
     }
 
     private void Start()
@@ -186,6 +198,9 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
+        if (SceneManager.Ins.Scene.IsState(GAME_STATE.INTRO))
+            return;
+
         switch (UnitState)
         {
             case UNIT_STATE.NORMAL:
@@ -282,7 +297,7 @@ public class Unit : MonoBehaviour
                 }
                 else
                 {
-                    Confidence -= Random.Range(30, 40);
+                    Confidence -= Random.Range(1, 10);
                 }
             }
         }

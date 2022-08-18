@@ -95,6 +95,9 @@ public class ClimateManager : MonoBehaviour
 
     private void Update()
     {
+        if (SceneManager.Ins.Scene.IsState(GAME_STATE.INTRO))
+            return;
+
         UpdateLevel();
         UpdateClimate();
     }
