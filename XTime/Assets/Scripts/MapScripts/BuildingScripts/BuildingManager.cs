@@ -10,6 +10,10 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] float CompanyTime = 0.0f;
     [SerializeField] float CurrentCompanyTime = 0.0f;
 
+    [Header("Trash")]
+    [SerializeField] List<Transform> TrashSpawnList = new List<Transform>();
+    public GameObject TrashPrefab;
+
     public void Initialize()
     {
         for(int i = 0; i < Buildings.Count; i++)
@@ -41,10 +45,21 @@ public class BuildingManager : MonoBehaviour
         {
             CurrentCompanyTime = 0.0f;
             CompanyTime = Random.Range(CompanyTimeMin, CompanyTimeMax);
-            
-            for(int i = 0; i < Buildings.Count; i++)
-            {
-            }
+            int random = Random.Range(0, Buildings.Count);
+            Buildings[random].Company = true;
         }
+    }
+
+    public Transform GetRandomTrashPos()
+    {
+        return TrashSpawnList[Random.Range(0, TrashSpawnList.Count)];
+    }
+
+    private void Update()
+    {
+        if (SceneManager.Ins.Scene.IsState(GAME_STATE.INTRO))
+            return;
+
+        SetCompany();
     }
 }
