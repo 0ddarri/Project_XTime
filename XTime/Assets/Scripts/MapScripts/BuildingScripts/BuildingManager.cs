@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
@@ -14,6 +15,56 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] List<Transform> TrashSpawnList = new List<Transform>();
     public GameObject TrashPrefab;
 
+    [SerializeField] float BadEmotion = 0.0f;
+    [SerializeField] Transform BadEmotionUI;
+    [SerializeField] bool IsDecreaseEmotion;
+    
+    public bool DecreaseAvail
+    {
+        get
+        {
+            return IsDecreaseEmotion;
+        }
+        set
+        {
+            IsDecreaseEmotion = value;
+            if (IsDecreaseEmotion)
+                StartCoroutine(DecreaseEmotion());
+        }
+    }
+
+
+    public float Emotion
+    {
+        get
+        {
+            return BadEmotion;
+        }
+        set
+        {
+            if(BadEmotion > 1.0f)
+                BadEmotion = 1.0f;
+            if (BadEmotion < 0.0f)
+                BadEmotion = 0.0f;
+            BadEmotion = value;
+        }
+    }
+
+    void SetEmotionUI()
+    {
+        Vector3 scale = BadEmotionUI.localScale;
+        BadEmotionUI.localScale = new Vector3(BadEmotion, scale.y, scale.z);
+    }
+
+    IEnumerator DecreaseEmotion()
+    {
+        while(DecreaseAvail)
+        {
+            yield return new WaitForSeconds(60.0f);
+            Emotion -= 0.1f;
+        }
+    }
+
     public void Initialize()
     {
         for(int i = 0; i < Buildings.Count; i++)
@@ -21,6 +72,8 @@ public class BuildingManager : MonoBehaviour
             Buildings[i].Initialize();
         }
         CurrentCompanyTime = 0.0f;
+        BadEmotion = 0.0f;
+        DecreaseAvail = true;
     }
 
     public List<int> GetRandomBuildingNum()
@@ -50,6 +103,14 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
+    public void ClearCompany()
+    {
+        for(int i = 0; i < Buildings.Count; i++)
+        {
+            Buildings[i].Company = false;
+        }
+    }
+
     public Transform GetRandomTrashPos()
     {
         return TrashSpawnList[Random.Range(0, TrashSpawnList.Count)];
@@ -61,5 +122,7 @@ public class BuildingManager : MonoBehaviour
             return;
 
         SetCompany();
+
+        SetEmotionUI();
     }
 }

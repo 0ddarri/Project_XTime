@@ -67,7 +67,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public bool IsCameraCompleteFilmed(CAMERA_TYPE type)
     {
-        if(type.Equals(CAMERA_TYPE.ENV))
+        if(type == CAMERA_TYPE.ENV)
         {
             if(IsEnvChecked)
                 return true;
@@ -100,6 +100,13 @@ public class CameraManager : Singleton<CameraManager>
         {
             UploadNews(CAMERA_TYPE.POL);
             PolUploadButton.IsClicked = false;
+            if(IsCameraCompleteFilmed(CAMERA_TYPE.POL))
+            {
+                Debug.Log("½Ã¹Ù");
+                SceneManager.Ins.Scene.TrashManager.ClearTrash();
+                SceneManager.Ins.Scene.buildingManager.Emotion += 0.1f;
+                IsPolChecked = false;
+            }
         }
         FollowMouse();
         if(EnvUploadButton.IsEntered || PolUploadButton.IsEntered || CamChangeButton.IsEntered)

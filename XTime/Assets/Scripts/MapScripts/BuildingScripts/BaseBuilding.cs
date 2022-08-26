@@ -84,12 +84,12 @@ public class BaseBuilding : MonoBehaviour
 
     void UpdateCompany()
     {
-        if (!IsCompany)
+        if (!Company)
             return;
 
         CurCompanyTime += Time.deltaTime;
         if (CurCompanyTime > CompanyTime)
-            IsCompany = false;
+            Company = false;
 
         CurTrashTime += Time.deltaTime;
         if(CurTrashTime > CurTrashSpawn)
@@ -107,7 +107,8 @@ public class BaseBuilding : MonoBehaviour
         GameObject obj = manager.TrashPrefab;
         Transform transform = manager.GetRandomTrashPos();
 
-        Instantiate(obj, transform.position, Quaternion.identity, SceneManager.Ins.Scene.TrashParent);
+        GameObject trashobj = Instantiate(obj, transform.position, Quaternion.identity, SceneManager.Ins.Scene.TrashParent);
+        SceneManager.Ins.Scene.TrashManager.TrashList.Add(trashobj.GetComponent<TrashObject>());
     }
 
     private void Update()

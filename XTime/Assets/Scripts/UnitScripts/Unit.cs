@@ -73,6 +73,12 @@ public class Unit : MonoBehaviour
 
     [SerializeField] int TileNum;
 
+    [Space(5.0f)]
+    public bool IsSetConFidenceByEnv = false;
+    GameObject CurrentEnv = null;
+
+    [SerializeField] bool IsPolluting = false;
+
     float tileMoveCurTime = 0.0f;
     Vector3 BeforeTilePos;
     Vector3 ResultNearPos;
@@ -83,12 +89,11 @@ public class Unit : MonoBehaviour
     [Header("Building Info")]
     [SerializeField] List<int> MapIndexList = new List<int>();
 
-    public bool IsSetConFidenceByEnv = false;
-    GameObject CurrentEnv = null;
 
     [Header("Sprites")]
     [SerializeField] SpriteRenderer Fill;
     [SerializeField] SpriteRenderer Outline;
+
 
     public float Confidence
     {
@@ -322,5 +327,26 @@ public class Unit : MonoBehaviour
             BuildingOutPosition = enter.GetComponentInParent<BaseBuilding>().GetRandomEntrance().transform.position;
             ChangeState(UNIT_STATE.IN_BUILDING);
         }
+
+        if (collision.tag == "Pol")
+        {
+            IsPolluting = true;
+            StartCoroutine(Polluting());
+        }
+    }
+
+    IEnumerator Polluting()
+    {
+        while(IsPolluting)
+        {
+            Confidence -= Random.Range(0.1f, 1f);
+            Debug.Log("¿À¿°");
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        IsPolluting = false;
     }
 }

@@ -12,6 +12,7 @@ public class BaseScene : MonoBehaviour
     public BuildingManager buildingManager;
     public UnitManager UnitManager;
     public Transform TrashParent;
+    public TrashManager TrashManager;
 
     private void Awake()
     {

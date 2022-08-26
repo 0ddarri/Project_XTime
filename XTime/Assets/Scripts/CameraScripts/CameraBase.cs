@@ -31,6 +31,7 @@ public class CameraBase : MonoBehaviour
     [SerializeField] SpriteRenderer LDown;
     [SerializeField] SpriteRenderer RUp;
     [SerializeField] SpriteRenderer RDown;
+    [SerializeField] Color UIColor;
 
     [Header("Raycast Settings")]
     [SerializeField] float MaxDistance;
@@ -115,21 +116,25 @@ public class CameraBase : MonoBehaviour
         Vector2 LUpSpriteSize = LUp.bounds.size * 0.5f;
         Vector2 LUpPos = new Vector2(camLUpPos.x + LUpSpriteSize.x, camLUpPos.y - LUpSpriteSize.y);
         LUp.gameObject.transform.position = LUpPos;
+        LUp.color = UIColor;
 
         Vector3 camRUpPos = Camera.ScreenToWorldPoint(new Vector3(camPixel.x, camPixel.y, 0));
         Vector2 RUpSpriteSize = RUp.bounds.size * 0.5f;
         Vector2 RUpPos = new Vector2(camRUpPos.x - RUpSpriteSize.x, camRUpPos.y - RUpSpriteSize.y);
         RUp.gameObject.transform.position = RUpPos;
+        RUp.color = UIColor;
 
         Vector3 camLDownPos = Camera.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector2 LDownSpriteSize = LDown.bounds.size * 0.5f;
         Vector2 LDownPos = new Vector2(camLDownPos.x + LDownSpriteSize.x, camLDownPos.y + LDownSpriteSize.y);
         LDown.gameObject.transform.position = LDownPos;
+        LDown.color = UIColor;
 
         Vector3 camRDownPos = Camera.ScreenToWorldPoint(new Vector3(camPixel.x, 0, 0));
         Vector2 RDownSpriteSize = RDown.bounds.size * 0.5f;
         Vector2 RDownPos = new Vector2(camRDownPos.x - RDownSpriteSize.x, camRDownPos.y + RDownSpriteSize.y);
         RDown.gameObject.transform.position = RDownPos;
+        RDown.color = UIColor;
     }
 
     private void Update()
