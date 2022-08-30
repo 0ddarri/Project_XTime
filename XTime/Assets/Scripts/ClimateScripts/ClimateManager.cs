@@ -6,7 +6,8 @@ public enum ENV_TYPE
 {
     NONE, // 기본기후
     MIST, // 안개
-    YELLOW_DUST // 황사
+    YELLOW_DUST, // 황사
+    TORNADO // 토네이도
 }
 
 [System.Serializable]

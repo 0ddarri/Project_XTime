@@ -42,6 +42,7 @@ public class BaseScene : MonoBehaviour
         IntroUIManager.Initialize();
         MapManager.Initialize();
         EndingUI.gameObject.SetActive(false);
+        MoneyController.Initialize();
         IOManager.Ins.Load();
         MaxSaveTimeText.text = "최고기록 : " + IOManager.Ins.MaxSaveTime.ToString("F1") + "s";
     }
