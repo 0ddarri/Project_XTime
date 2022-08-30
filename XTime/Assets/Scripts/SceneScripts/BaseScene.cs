@@ -14,6 +14,7 @@ public class BaseScene : MonoBehaviour
     public UnitManager UnitManager;
     public Transform TrashParent;
     public TrashManager TrashManager;
+    public MoneyController MoneyController;
 
     [Space(5.0f)]
     [SerializeField] EndingUIController EndingUI;

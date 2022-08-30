@@ -18,6 +18,12 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] float BadEmotion = 0.0f;
     [SerializeField] Transform BadEmotionUI;
     [SerializeField] bool IsDecreaseEmotion;
+
+    public QuestController QuestController;
+    [SerializeField] float QuestDelayMin; 
+    [SerializeField] float QuestDelayMax; 
+    [SerializeField] float CurrentQuestDelay; 
+    [SerializeField] float QuestDelayTime = 0.0f; 
     
     public bool DecreaseAvail
     {
@@ -65,6 +71,11 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Initialize();
+    }
+
     public void Initialize()
     {
         for(int i = 0; i < Buildings.Count; i++)
@@ -74,6 +85,8 @@ public class BuildingManager : MonoBehaviour
         CurrentCompanyTime = 0.0f;
         BadEmotion = 0.0f;
         DecreaseAvail = true;
+        QuestDelayTime = 0.0f;
+        CurrentQuestDelay = Random.Range(QuestDelayMin, QuestDelayMax);
     }
 
     public List<int> GetRandomBuildingNum()
@@ -103,6 +116,16 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
+    bool CheckCompany()
+    {
+        for(int i = 0; i < Buildings.Count; i++)
+        {
+            if (Buildings[i].Company)
+                return true;
+        }
+        return false;
+    }
+
     public void ClearCompany()
     {
         for(int i = 0; i < Buildings.Count; i++)
@@ -122,6 +145,20 @@ public class BuildingManager : MonoBehaviour
             return;
 
         SetCompany();
+
+        if (CheckCompany())
+        {
+            QuestDelayTime += Time.deltaTime;
+            if(QuestDelayTime > CurrentQuestDelay)
+            {
+                QuestDelayTime = 0.0f;
+                if (!QuestController.QuestAvail)
+                    QuestController.QuestAvail = true;
+                CurrentQuestDelay = Random.Range(QuestDelayMin, QuestDelayMax);
+            }
+        }
+        else
+            QuestDelayTime = 0.0f;
 
         SetEmotionUI();
     }
