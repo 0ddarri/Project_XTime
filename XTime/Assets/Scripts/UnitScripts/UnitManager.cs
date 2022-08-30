@@ -11,9 +11,7 @@ public class UnitManager : MonoBehaviour
 
     [SerializeField] List<Unit> UnitList = new List<Unit>();
 
-    [SerializeField] Text TestConfidenceText;
     [SerializeField] Transform ConfidenceFill;
-    [SerializeField] Text TestPopulationText;
 
     private void Start()
     {
@@ -59,8 +57,6 @@ public class UnitManager : MonoBehaviour
         SetConFidenceFill(val * 0.01f);
 
         ConfidenceLevel = val;
-        Debug.Log(val + "%");
-        TestConfidenceText.text = "신뢰도 : " + val + "%";
     }
 
     int CheckAvailUnit()
@@ -78,7 +74,6 @@ public class UnitManager : MonoBehaviour
     {
         PopulationLevel = CheckAvailUnit() / Population * 100;
         Debug.Log(PopulationLevel);
-        TestPopulationText.text = "남은 인구비율 : " + PopulationLevel + "%";
     }
 
     void DiscountAllConfidence(int min, int max)

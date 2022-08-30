@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GAME_STATE { INTRO, INGAME, PAUSED, RESULT }
 
@@ -13,6 +14,15 @@ public class BaseScene : MonoBehaviour
     public UnitManager UnitManager;
     public Transform TrashParent;
     public TrashManager TrashManager;
+
+    [Space(5.0f)]
+    [SerializeField] EndingUIController EndingUI;
+    [SerializeField] float ConfidenceMinValue;
+
+    [Space(5.0f)]
+    public float SaveTime = 0.0f;
+    [SerializeField] float MaxSaveTime = 0.0f;
+    [SerializeField] Text MaxSaveTimeText;
 
     private void Awake()
     {
@@ -27,8 +37,12 @@ public class BaseScene : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1.0f;
         IntroUIManager.Initialize();
         MapManager.Initialize();
+        EndingUI.gameObject.SetActive(false);
+        IOManager.Ins.Load();
+        MaxSaveTimeText.text = "최고기록 : " + IOManager.Ins.MaxSaveTime.ToString("F1") + "s";
     }
 
     public void ChangeState(GAME_STATE newState)
@@ -59,7 +73,10 @@ public class BaseScene : MonoBehaviour
 
     void IntroInit()
     {
+        SaveTime = 0.0f;
+        Time.timeScale = 1.0f;
         IntroUIManager.Initialize();
+        EndingUI.gameObject.SetActive(false);
     }
 
     void IngameInit()
@@ -74,7 +91,13 @@ public class BaseScene : MonoBehaviour
 
     void ResultInit()
     {
-
+        Time.timeScale = 0.0f;
+        EndingUI.gameObject.SetActive(true);
+        EndingUI.Initialize();
+        if(SaveTime > MaxSaveTime)
+        {
+            IOManager.Ins.Save();
+        }
     }
 
     private void Update()
@@ -88,6 +111,13 @@ public class BaseScene : MonoBehaviour
                 break;
 
             case GAME_STATE.INGAME:
+                {
+                    SaveTime += Time.deltaTime;
+                    if (UnitManager.Confidence < ConfidenceMinValue)
+                    {
+                        ChangeState(GAME_STATE.RESULT);
+                    }
+                }
                 break;
 
             case GAME_STATE.PAUSED:

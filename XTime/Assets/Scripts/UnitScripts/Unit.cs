@@ -255,7 +255,7 @@ public class Unit : MonoBehaviour
 
     void StateInit_Leave()
     {
-
+        gameObject.SetActive(false);
     }
 
     void ChangeState(UNIT_STATE newstate)
