@@ -23,7 +23,11 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] float QuestDelayMin; 
     [SerializeField] float QuestDelayMax; 
     [SerializeField] float CurrentQuestDelay; 
-    [SerializeField] float QuestDelayTime = 0.0f; 
+    [SerializeField] float QuestDelayTime = 0.0f;
+
+    [Header("Broke Settings")]
+    [SerializeField] IsoButton FixButton;
+    [SerializeField] int FixCost;
     
     public bool DecreaseAvail
     {
@@ -100,8 +104,37 @@ public class BuildingManager : MonoBehaviour
             int n = Random.Range(0, Buildings.Count);
             num.Add(n);
         }
-
         return num;
+    }
+    
+    public List<BaseBuilding> GetRandomBuilding(int count)
+    {
+        List<BaseBuilding> randBuildings = new List<BaseBuilding>();
+        List<int> checkSamelist = new List<int>();
+
+        for (int i = 0; i < count; i++)
+        {
+            int n = Random.Range(0, Buildings.Count);
+            if(CheckSame(checkSamelist, n))
+            {
+                i--;
+                continue;
+            }
+            checkSamelist.Add(n);
+            randBuildings.Add(Buildings[n]);
+        }
+        return randBuildings;
+    }
+
+    bool CheckSame(List<int> checklist, int num)
+    {
+        for(int i = 0; i < checklist.Count; i++)
+        {
+            if (checklist[i] == num)
+                return true;
+        }
+
+        return false;
     }
 
     public void SetCompany()
@@ -112,6 +145,9 @@ public class BuildingManager : MonoBehaviour
             CurrentCompanyTime = 0.0f;
             CompanyTime = Random.Range(CompanyTimeMin, CompanyTimeMax);
             int random = Random.Range(0, Buildings.Count);
+            if (Buildings[random].Broken)
+                return;
+
             Buildings[random].Company = true;
         }
     }
@@ -161,5 +197,24 @@ public class BuildingManager : MonoBehaviour
             QuestDelayTime = 0.0f;
 
         SetEmotionUI();
+
+        if(FixButton.IsClicked)
+        {
+            FixButton.IsClicked = false;
+            if(SceneManager.Ins.Scene.MoneyController.Money >= FixCost)
+            {
+                SceneManager.Ins.Scene.MoneyController.Money -= FixCost;
+                FixAllBuilding();
+            }
+        }
+    }
+
+    public void FixAllBuilding()
+    {
+        for(int i = 0; i < Buildings.Count; i++)
+        {
+            if (Buildings[i].Broken)
+                Buildings[i].Broken = false;
+        }
     }
 }

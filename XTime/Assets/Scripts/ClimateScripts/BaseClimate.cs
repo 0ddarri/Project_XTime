@@ -13,6 +13,7 @@ public class BaseClimate : MonoBehaviour
     [SerializeField] protected float CurrentPlayingTime = 0.0f; // 기후 실행시간
     [SerializeField] protected float MinPlayingTime;
     [SerializeField] protected float MaxPlayingTime;
+    [SerializeField] protected float RandomTime;
 
     public virtual void Initialize() // 초기화 함수
     {
@@ -24,7 +25,7 @@ public class BaseClimate : MonoBehaviour
     public void StartClimate()
     {
         gameObject.SetActive(true);
-        float RandomTime = Random.Range(MinPlayingTime, MaxPlayingTime);
+        RandomTime = Random.Range(MinPlayingTime, MaxPlayingTime);
         Debug.Log("시작!");
         StartCoroutine(StartClimate(RandomTime));
     }

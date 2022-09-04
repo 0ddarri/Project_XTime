@@ -8,6 +8,7 @@ TagManager:
   - Enterance
   - Env
   - Pol
+  - Buildings
   layers:
   - Default
   - TransparentFX

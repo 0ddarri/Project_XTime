@@ -7,6 +7,26 @@ public class BaseBuilding : MonoBehaviour
     [SerializeField] List<Entrance> EntranceList = new List<Entrance>();
     public int Index;
     [SerializeField] bool IsCompany = false;
+    [SerializeField] bool IsBroken = false;
+    public bool Broken
+    {
+        get
+        {
+            return IsBroken;
+        }
+        set
+        {
+            IsBroken = value;
+            if(IsBroken)
+            {
+                Sprite.enabled = false;
+            }
+            else
+            {
+                Sprite.enabled = true;
+            }
+        }
+    }
 
     [Header("Company Settings")]
     [SerializeField] float TrashSpawnMin;
