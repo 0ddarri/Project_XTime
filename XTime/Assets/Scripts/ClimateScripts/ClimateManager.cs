@@ -7,7 +7,10 @@ public enum ENV_TYPE
     NONE, // 기본기후
     MIST, // 안개
     YELLOW_DUST, // 황사
-    TORNADO // 토네이도
+    TORNADO, // 토네이도
+    RAIN, // 비
+    SNOW, // 눈
+    QUAKE // 지진
 }
 
 [System.Serializable]
