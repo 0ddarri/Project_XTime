@@ -50,10 +50,8 @@ public class UnitManager : MonoBehaviour
         {
             percent += UnitList[i].Confidence;
         }
-        Debug.Log("모두더함 : " + percent);
 
         float val = percent / UnitList.Count;
-        Debug.Log("나눔 : " + val);
         SetConFidenceFill(val * 0.01f);
 
         ConfidenceLevel = val;
@@ -73,7 +71,6 @@ public class UnitManager : MonoBehaviour
     void CalcPopulation()
     {
         PopulationLevel = CheckAvailUnit() / Population * 100;
-        Debug.Log(PopulationLevel);
     }
 
     void DiscountAllConfidence(int min, int max)

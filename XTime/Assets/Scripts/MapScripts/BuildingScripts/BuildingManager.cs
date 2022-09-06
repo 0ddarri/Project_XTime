@@ -162,6 +162,17 @@ public class BuildingManager : MonoBehaviour
         return false;
     }
 
+    public int CheckBreakBuildingCount()
+    {
+        int result = 0;
+        for(int n = 0; n < Buildings.Count; n++)
+        {
+            if (Buildings[n].Broken)
+                result++;
+        }
+        return result;
+    }
+
     public void ClearCompany()
     {
         for(int i = 0; i < Buildings.Count; i++)
@@ -179,6 +190,8 @@ public class BuildingManager : MonoBehaviour
     {
         if (SceneManager.Ins.Scene.IsState(GAME_STATE.INTRO))
             return;
+
+        FixCost = CheckBreakBuildingCount() * 2;
 
         SetCompany();
 

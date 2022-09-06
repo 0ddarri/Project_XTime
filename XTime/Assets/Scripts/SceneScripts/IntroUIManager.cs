@@ -12,11 +12,15 @@ public class IntroUIManager : MonoBehaviour
     [Header("Animation")]
     [SerializeField] PlayableDirector GameStartAnimation;
 
-    public void Initialize()
+    public void Initialize(bool enable = true)
     {
-        StartButton.enabled = false;
-        SettingsButton.enabled = false;
-        ExitButton.enabled = false;
+        StartButton.enabled = enable;
+        SettingsButton.enabled = enable;
+        ExitButton.enabled = enable;
+
+        StartButton.GetComponent<PolygonCollider2D>().enabled = enable;
+        SettingsButton.GetComponent<PolygonCollider2D>().enabled = enable;
+        ExitButton.GetComponent<PolygonCollider2D>().enabled = enable;
     }
     
     public void UIUpdate()
@@ -24,7 +28,7 @@ public class IntroUIManager : MonoBehaviour
         if(StartButton.IsClicked)
         {
             StartButton.IsClicked = false;
-            Initialize();
+            Initialize(false);
             SceneManager.Ins.Scene.ChangeState(GAME_STATE.INGAME);
             GameStartAnimation.Play();
             Debug.Log("Start");
@@ -33,15 +37,15 @@ public class IntroUIManager : MonoBehaviour
         if (SettingsButton.IsClicked)
         {
             SettingsButton.IsClicked = false;
-            Initialize();
-            SceneManager.Ins.Scene.ChangeState(GAME_STATE.PAUSED);
+            Initialize(false);
+            SceneManager.Ins.Scene.SettingsUIController.Initialize();
             Debug.Log("Settings");
         }
 
         if (ExitButton.IsClicked)
         {
             ExitButton.IsClicked = false;
-            Initialize();
+            Initialize(false);
             Application.Quit();
             Debug.Log("Exit");
         }

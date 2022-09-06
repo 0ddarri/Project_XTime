@@ -16,6 +16,8 @@ public class CameraManager : Singleton<CameraManager>
 
     public bool IsEnvChecked = false; // È¯°æ ÀßÂïÇû´ÂÁö
     public bool IsPolChecked = false; // ¿À¿° ÀßÂïÇû´ÂÁö
+    [Space(5.0f)]
+    [SerializeField] IsoButton[] CamDisableButtons;
 
     public void Initialize()
     {
@@ -81,6 +83,19 @@ public class CameraManager : Singleton<CameraManager>
         }
     }
 
+    void SetCamDisable()
+    {
+        for (int i = 0; i < CamDisableButtons.Length; i++)
+        {
+            if (CamDisableButtons[i].IsEntered)
+            {
+                GetCurrentCamera().CameraAvail = false;
+                return;
+            }
+        }
+        GetCurrentCamera().CameraAvail = true;
+    }
+
     private void Update()
     {
         if (SceneManager.Ins.Scene.IsState(GAME_STATE.INTRO))
@@ -109,14 +124,8 @@ public class CameraManager : Singleton<CameraManager>
             }
         }
         FollowMouse();
-        if(EnvUploadButton.IsEntered || PolUploadButton.IsEntered || CamChangeButton.IsEntered)
-        {
-            GetCurrentCamera().CameraAvail = false;
-        }
-        else
-        {
-            GetCurrentCamera().CameraAvail = true;
-        }
+
+        SetCamDisable();
     }
 
     public void UploadNews(CAMERA_TYPE type)
@@ -141,6 +150,7 @@ public class CameraManager : Singleton<CameraManager>
                 IsEnvChecked = true;
             else
                 IsPolChecked = true;
+            SceneManager.Ins.Scene.MoneyController.Money += 2;
         }
         else
         {
@@ -148,6 +158,7 @@ public class CameraManager : Singleton<CameraManager>
                 IsEnvChecked = false;
             else
                 IsPolChecked = false;
+            SceneManager.Ins.Scene.MoneyController.Money -= 1;
         }
         TVManager.Upload(type);
         Debug.Log("ÃÔ¿µ! : " + type);

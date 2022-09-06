@@ -38,10 +38,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FogAlphaCut: 0.5
+    - _FogAlphaCut: 0.4
     - _FogAlphaMultiply: 2
-    - _FogAlphaPower: 4
-    - _FogSize: 30
+    - _FogAlphaPower: 2.18
+    - _FogSize: 70
     m_Colors:
     - _FogColor: {r: 1, g: 1, b: 1, a: 0}
     - _FogSpeed: {r: 0.1, g: 0, b: 0, a: 0}

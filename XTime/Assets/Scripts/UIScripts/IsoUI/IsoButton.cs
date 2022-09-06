@@ -9,6 +9,7 @@ public class IsoButton : MonoBehaviour
 
     private void OnMouseDown()
     {
+        SceneManager.Ins.Scene.SoundManager.PlaySound(SOUND_TYPE.SFX, "ButtonClick");
         IsClicked = true;
     }
 

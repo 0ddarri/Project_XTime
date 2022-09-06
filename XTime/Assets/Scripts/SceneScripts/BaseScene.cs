@@ -8,13 +8,15 @@ public enum GAME_STATE { INTRO, INGAME, PAUSED, RESULT }
 public class BaseScene : MonoBehaviour
 {
     [SerializeField] GAME_STATE State;
-    [SerializeField] IntroUIManager IntroUIManager;
+    public IntroUIManager IntroUIManager;
     public MapManager MapManager;
     public BuildingManager buildingManager;
     public UnitManager UnitManager;
     public Transform TrashParent;
     public TrashManager TrashManager;
     public MoneyController MoneyController;
+    public SettingsUIController SettingsUIController;
+    public SoundManager SoundManager;
 
     [Space(5.0f)]
     [SerializeField] EndingUIController EndingUI;
@@ -29,6 +31,7 @@ public class BaseScene : MonoBehaviour
     {
         SceneManager.Ins.Scene = this;
         ChangeState(GAME_STATE.INTRO);
+        IOManager.Ins.Initialize();
     }
 
     public bool IsState(GAME_STATE state)
@@ -44,7 +47,9 @@ public class BaseScene : MonoBehaviour
         EndingUI.gameObject.SetActive(false);
         MoneyController.Initialize();
         IOManager.Ins.Load();
+        SettingsUIController.Load();
         MaxSaveTimeText.text = "최고기록 : " + IOManager.Ins.MaxSaveTime.ToString("F1") + "s";
+        SoundManager.PlaySound(SOUND_TYPE.BGM, "Main BGM"); 
     }
 
     public void ChangeState(GAME_STATE newState)
@@ -88,7 +93,8 @@ public class BaseScene : MonoBehaviour
 
     void PauseInit()
     {
-
+        SettingsUIController.Initialize();
+        Time.timeScale = 0.0f;
     }
 
     void ResultInit()
@@ -102,6 +108,14 @@ public class BaseScene : MonoBehaviour
         }
     }
 
+    void Pause()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            ChangeState(GAME_STATE.PAUSED);
+        }
+    }
+
     private void Update()
     {
         switch (State)
@@ -109,6 +123,7 @@ public class BaseScene : MonoBehaviour
             case GAME_STATE.INTRO:
                 {
                     IntroUIManager.UIUpdate();
+                    Pause();
                 }
                 break;
 
@@ -118,6 +133,10 @@ public class BaseScene : MonoBehaviour
                     if (UnitManager.Confidence < ConfidenceMinValue)
                     {
                         ChangeState(GAME_STATE.RESULT);
+                    }
+                    else
+                    {
+                        Pause();
                     }
                 }
                 break;

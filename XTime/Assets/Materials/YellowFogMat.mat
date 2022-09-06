@@ -38,9 +38,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FogAlphaCut: 0.3
-    - _FogAlphaMultiply: 2
-    - _FogAlphaPower: 2.09
+    - _FogAlphaCut: 0.8
+    - _FogAlphaMultiply: 5.66
+    - _FogAlphaPower: 1
     - _FogSize: 50
     m_Colors:
     - _FogColor: {r: 1.344126, g: 0.8169636, b: 0.095103234, a: 0}

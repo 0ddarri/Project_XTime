@@ -92,7 +92,7 @@ public class Quest : MonoBehaviour
             }
             yield return null;
         }
-
+        Debug.Log("¼º°ø");
         SceneManager.Ins.Scene.MoneyController.Money += RewardMoney;
 
     END:
@@ -120,10 +120,12 @@ public class Quest : MonoBehaviour
         {
             UnableButton();
             Initialize(true);
+            YesButton.IsClicked = false;
             StartCoroutine(QuestCountDown());
         }
         if(NoButton.IsClicked)
         {
+            NoButton.IsClicked = false;
             UnableButton();
             Initialize(false);
         }

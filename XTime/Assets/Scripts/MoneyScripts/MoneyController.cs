@@ -7,6 +7,7 @@ public class MoneyController : MonoBehaviour
 {
     public int Money;
     [SerializeField] TextMeshProUGUI MoneyText;
+    [SerializeField] TextMeshProUGUI FixCostText;
 
     public void Initialize()
     {
@@ -16,5 +17,6 @@ public class MoneyController : MonoBehaviour
     private void Update()
     {
         MoneyText.text = Money.ToString();
+        FixCostText.text = SceneManager.Ins.Scene.buildingManager.CheckBreakBuildingCount().ToString();
     }
 }
