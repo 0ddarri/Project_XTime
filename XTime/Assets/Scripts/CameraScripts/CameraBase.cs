@@ -79,6 +79,7 @@ public class CameraBase : MonoBehaviour
 
     public IEnumerator CaptureCamera()
     {
+        SceneManager.Ins.Scene.SoundManager.PlaySound(SOUND_TYPE.SFX, "CameraShot");
         Camera.enabled = true;
         Camera.Render();
         Camera.enabled = false;

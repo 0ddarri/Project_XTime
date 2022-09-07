@@ -147,9 +147,15 @@ public class CameraManager : Singleton<CameraManager>
         if (cam.TargetChecked)
         {
             if (type.Equals(CAMERA_TYPE.ENV))
+            {
                 IsEnvChecked = true;
+                SceneManager.Ins.Scene.SoundManager.PlaySound(SOUND_TYPE.SFX, "EnvUpload");
+            }
             else
+            {
                 IsPolChecked = true;
+                SceneManager.Ins.Scene.SoundManager.PlaySound(SOUND_TYPE.SFX, "PolUpload");
+            }
             SceneManager.Ins.Scene.MoneyController.Money += 2;
         }
         else

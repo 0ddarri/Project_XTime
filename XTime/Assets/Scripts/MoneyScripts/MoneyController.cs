@@ -17,6 +17,8 @@ public class MoneyController : MonoBehaviour
     private void Update()
     {
         MoneyText.text = Money.ToString();
+        if(Money < 0)
+            Money = 0;
         FixCostText.text = SceneManager.Ins.Scene.buildingManager.CheckBreakBuildingCount().ToString();
     }
 }
