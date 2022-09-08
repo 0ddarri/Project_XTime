@@ -51,6 +51,7 @@ public class Quest : MonoBehaviour
         else
         {
             SceneManager.Ins.Scene.buildingManager.Emotion += Penalty;
+            Debug.Log("패널티로 인한 악감정 증가");
             StartCoroutine(EndAnim(3.0f));
             SceneManager.Ins.Scene.buildingManager.QuestController.QuestAvail = false;
         }
@@ -87,7 +88,7 @@ public class Quest : MonoBehaviour
             if(CameraManager.Ins.IsCameraCompleteFilmed(CAMERA_TYPE.POL))
             {
                 SceneManager.Ins.Scene.buildingManager.Emotion += ResignPanalty;
-                Debug.Log("퀘스트 도중실패");
+                Debug.Log("퀘스트 도중실패로 인한 악감정 증가");
                 goto END;
             }
             yield return null;
@@ -121,11 +122,13 @@ public class Quest : MonoBehaviour
             UnableButton();
             Initialize(true);
             YesButton.IsClicked = false;
+            YesButton.IsEntered = false;
             StartCoroutine(QuestCountDown());
         }
         if(NoButton.IsClicked)
         {
             NoButton.IsClicked = false;
+            NoButton.IsEntered = false;
             UnableButton();
             Initialize(false);
         }

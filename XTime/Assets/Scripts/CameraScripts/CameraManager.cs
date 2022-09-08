@@ -58,15 +58,6 @@ public class CameraManager : Singleton<CameraManager>
         GetCurrentCamera().transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    void SetCameraAvail()
-    {
-        if(Input.GetKeyDown(KeyCode.F9))
-        {
-            GetCurrentCamera().CameraAvail = !GetCurrentCamera().CameraAvail;
-            Debug.Log("카메라 켰다겄다");
-        }
-    }
-
     public bool IsCameraCompleteFilmed(CAMERA_TYPE type)
     {
         if(type == CAMERA_TYPE.ENV)
@@ -117,9 +108,9 @@ public class CameraManager : Singleton<CameraManager>
             PolUploadButton.IsClicked = false;
             if(IsCameraCompleteFilmed(CAMERA_TYPE.POL))
             {
-                Debug.Log("시바");
                 SceneManager.Ins.Scene.TrashManager.ClearTrash();
                 SceneManager.Ins.Scene.buildingManager.Emotion += 0.1f;
+                Debug.Log("신고로 인한 악감정 증가");
                 IsPolChecked = false;
             }
         }

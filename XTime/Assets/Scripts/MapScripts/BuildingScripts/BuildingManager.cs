@@ -52,18 +52,18 @@ public class BuildingManager : MonoBehaviour
         }
         set
         {
+            BadEmotion = value;
             if(BadEmotion > 1.0f)
                 BadEmotion = 1.0f;
             if (BadEmotion < 0.0f)
                 BadEmotion = 0.0f;
-            BadEmotion = value;
         }
     }
 
     void SetEmotionUI()
     {
         Vector3 scale = BadEmotionUI.localScale;
-        BadEmotionUI.localScale = new Vector3(BadEmotion, scale.y, scale.z);
+        BadEmotionUI.localScale = new Vector3(Emotion, scale.y, scale.z);
     }
 
     IEnumerator DecreaseEmotion()
@@ -87,7 +87,7 @@ public class BuildingManager : MonoBehaviour
             Buildings[i].Initialize();
         }
         CurrentCompanyTime = 0.0f;
-        BadEmotion = 0.0f;
+        Emotion = 0.0f;
         DecreaseAvail = true;
         QuestDelayTime = 0.0f;
         CurrentQuestDelay = Random.Range(QuestDelayMin, QuestDelayMax);

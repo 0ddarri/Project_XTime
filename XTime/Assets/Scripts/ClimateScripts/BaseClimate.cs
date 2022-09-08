@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// 이상기후 부모클래스
@@ -13,8 +15,12 @@ public class BaseClimate : MonoBehaviour
     [SerializeField] protected float CurrentPlayingTime = 0.0f; // 기후 실행시간
     [SerializeField] protected float MinPlayingTime;
     [SerializeField] protected float MaxPlayingTime;
-    [SerializeField] protected float RandomTime;
-
+    [SerializeField] public float RandomTime;
+    [Space(5.0f)]
+    [SerializeField] protected Color TopColor; 
+    [SerializeField] protected Color MiddleColor; 
+    [SerializeField] protected Color BottomColor;
+    [SerializeField] protected Color BottomGradientColor = Color.white;
     public virtual void Initialize() // 초기화 함수
     {
         gameObject.SetActive(false);

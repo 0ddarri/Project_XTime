@@ -59,7 +59,6 @@ public class MapManager : MonoBehaviour
                 DataFromTiles.Add(TileDatas[i].Tiles[j], TileDatas[i]);
             }
         }
-        Debug.Log(DataFromTiles.Count);
     }
 
     public Vector3Int GetCellPos(Vector3 pos, int num)

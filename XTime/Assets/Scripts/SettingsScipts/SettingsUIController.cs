@@ -21,7 +21,6 @@ public class SettingsUIController : MonoBehaviour
     public void Start()
     {
         SettingsUI.transform.position = StartPos.position;
-        Debug.Log("hey : " + SettingsUI.transform.position);
     }
 
     public void Load()
@@ -102,7 +101,7 @@ public class SettingsUIController : MonoBehaviour
         {
             OKButton.IsClicked = false;
             IOManager.Ins.SaveSoundInfo();
-            SceneManager.Ins.Scene.IntroUIManager.Initialize(true);
+            SceneManager.Ins.Scene.ChangeState(GAME_STATE.INGAME);
             StartCoroutine(EndAnim());
         }
 

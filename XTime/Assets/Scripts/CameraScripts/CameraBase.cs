@@ -116,25 +116,25 @@ public class CameraBase : MonoBehaviour
         Vector3 camLUpPos = Camera.ScreenToWorldPoint(new Vector3(0, camPixel.y, 0));
         Vector2 LUpSpriteSize = LUp.bounds.size * 0.5f;
         Vector2 LUpPos = new Vector2(camLUpPos.x + LUpSpriteSize.x, camLUpPos.y - LUpSpriteSize.y);
-        LUp.gameObject.transform.position = LUpPos;
+        LUp.gameObject.transform.position = new Vector3(LUpPos.x, LUpPos.y, -6.0f);
         LUp.color = UIColor;
 
         Vector3 camRUpPos = Camera.ScreenToWorldPoint(new Vector3(camPixel.x, camPixel.y, 0));
         Vector2 RUpSpriteSize = RUp.bounds.size * 0.5f;
         Vector2 RUpPos = new Vector2(camRUpPos.x - RUpSpriteSize.x, camRUpPos.y - RUpSpriteSize.y);
-        RUp.gameObject.transform.position = RUpPos;
+        RUp.gameObject.transform.position = new Vector3(RUpPos.x, RUpPos.y, -6.0f);
         RUp.color = UIColor;
 
         Vector3 camLDownPos = Camera.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector2 LDownSpriteSize = LDown.bounds.size * 0.5f;
         Vector2 LDownPos = new Vector2(camLDownPos.x + LDownSpriteSize.x, camLDownPos.y + LDownSpriteSize.y);
-        LDown.gameObject.transform.position = LDownPos;
+        LDown.gameObject.transform.position = new Vector3(LDownPos.x, LDownPos.y, -6.0f);
         LDown.color = UIColor;
 
         Vector3 camRDownPos = Camera.ScreenToWorldPoint(new Vector3(camPixel.x, 0, 0));
         Vector2 RDownSpriteSize = RDown.bounds.size * 0.5f;
         Vector2 RDownPos = new Vector2(camRDownPos.x - RDownSpriteSize.x, camRDownPos.y + RDownSpriteSize.y);
-        RDown.gameObject.transform.position = RDownPos;
+        RDown.gameObject.transform.position = new Vector3(RDownPos.x, RDownPos.y, -6.0f);
         RDown.color = UIColor;
     }
 

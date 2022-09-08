@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 public class Tornado : BaseClimate
@@ -23,9 +22,31 @@ public class Tornado : BaseClimate
         return false;
     }
 
+    IEnumerator SetGraphicsSettings()
+    {
+        float time = 0.0f;
+
+        Color originTopColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_TopColor");
+        Color originMiddleColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_MiddleColor");
+        Color originBottomColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_BottomColor");
+        Color originBottomGradientColor = SceneManager.Ins.Scene.ClimateManager.BottomGradientSprite.color;
+
+        while (time <= 1.0f)
+        {
+            time += Time.deltaTime;
+            SceneManager.Ins.Scene.ClimateManager.BackgroundMat.SetColor("_TopColor", Color.Lerp(originTopColor, TopColor, time));
+            SceneManager.Ins.Scene.ClimateManager.BackgroundMat.SetColor("_MiddleColor", Color.Lerp(originMiddleColor, MiddleColor, time));
+            SceneManager.Ins.Scene.ClimateManager.BackgroundMat.SetColor("_BottomColor", Color.Lerp(originBottomColor, BottomColor, time));
+            SceneManager.Ins.Scene.ClimateManager.BottomGradientSprite.color = Color.Lerp(originBottomGradientColor, BottomColor, time);
+
+            yield return null;
+        }
+    }
+
     protected override IEnumerator StartClimate(float maxTime)
     {
         yield return StartCoroutine(base.StartClimate(maxTime));
+        yield return StartCoroutine(SetGraphicsSettings());
         Debug.Log("토네이도 시작");
         Curve.Clear();
         TargetBuildingList = SceneManager.Ins.Scene.buildingManager.GetRandomBuilding(Random.Range(0, BuildingTargetMax));
@@ -41,11 +62,9 @@ public class Tornado : BaseClimate
 
         for(int i = 1; i < Curve.PointsCount - 1; i++)
         {
-            Debug.Log("야 수정되고있나");
             Vector3 prev = Curve.Points[i - 1].PositionLocal;
             Vector3 next = Curve.Points[i + 1].PositionLocal;
             Vector3 norm = Vector3.Normalize(next - prev);
-            Debug.Log("수정할 벡터 : " + norm);
             Curve.Points[i] = new BansheeGz.BGSpline.Curve.BGCurvePoint(Curve, Curve.Points[i].PositionLocal,
             BansheeGz.BGSpline.Curve.BGCurvePoint.ControlTypeEnum.BezierSymmetrical, -norm, norm);
         }

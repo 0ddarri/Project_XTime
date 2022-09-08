@@ -9,6 +9,7 @@ public class BaseScene : MonoBehaviour
 {
     [SerializeField] GAME_STATE State;
     public IntroUIManager IntroUIManager;
+    public ClimateManager ClimateManager;
     public MapManager MapManager;
     public BuildingManager buildingManager;
     public UnitManager UnitManager;
@@ -88,6 +89,7 @@ public class BaseScene : MonoBehaviour
 
     void IngameInit()
     {
+        Time.timeScale = 1.0f;
         StartCoroutine(MapManager.StartObjAnimation());
     }
 
@@ -123,7 +125,6 @@ public class BaseScene : MonoBehaviour
             case GAME_STATE.INTRO:
                 {
                     IntroUIManager.UIUpdate();
-                    Pause();
                 }
                 break;
 

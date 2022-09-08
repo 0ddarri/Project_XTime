@@ -117,7 +117,6 @@ public class BaseBuilding : MonoBehaviour
             CurTrashTime = 0;
             CurTrashSpawn = Random.Range(TrashSpawnMin, TrashSpawnMax);
             SpawnTrash();
-            Debug.Log("asdfasdffdsasdfasdf");
         }
     }
 
