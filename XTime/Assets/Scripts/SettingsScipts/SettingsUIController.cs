@@ -101,7 +101,10 @@ public class SettingsUIController : MonoBehaviour
         {
             OKButton.IsClicked = false;
             IOManager.Ins.SaveSoundInfo();
-            SceneManager.Ins.Scene.ChangeState(GAME_STATE.INGAME);
+            if(SceneManager.Ins.Scene.IsState(GAME_STATE.PAUSED))
+                SceneManager.Ins.Scene.ChangeState(GAME_STATE.INGAME);
+            else
+                SceneManager.Ins.Scene.IntroUIManager.Initialize(true);
             StartCoroutine(EndAnim());
         }
 

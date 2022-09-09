@@ -55,6 +55,9 @@ TagManager:
   - name: Player
     uniqueID: 2725848583
     locked: 0
+  - name: Building
+    uniqueID: 2370645627
+    locked: 0
   - name: Forward
     uniqueID: 2630025141
     locked: 0

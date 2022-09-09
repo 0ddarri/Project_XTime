@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public enum ENV_TYPE
 {
@@ -41,6 +42,8 @@ public class LevelClimate // 단계별 이상기후 리스트
 public class ClimateManager : MonoBehaviour
 {
     public Volume GlobalVolume;
+    public ColorAdjustments ColorAdj;
+    [Space(5.0f)]
     public Material BackgroundMat;
     [SerializeField] protected Color TopColor;
     [SerializeField] protected Color MiddleColor;
@@ -63,6 +66,8 @@ public class ClimateManager : MonoBehaviour
         BackgroundMat.SetColor("_MiddleColor", MiddleColor);
         BackgroundMat.SetColor("_BottomColor", BottomColor);
         BottomGradientSprite.color = Color.white;
+
+        GlobalVolume.profile.TryGet<ColorAdjustments>(out ColorAdj);
     }
 
     private void Start()
@@ -77,6 +82,7 @@ public class ClimateManager : MonoBehaviour
         Color originTopColor = BackgroundMat.GetColor("_TopColor");
         Color originMiddleColor = BackgroundMat.GetColor("_MiddleColor");
         Color originBottomColor = BackgroundMat.GetColor("_BottomColor");
+        Color originAdj = ColorAdj.colorFilter.value;
 
         while (time <= 1.0f)
         {
@@ -84,6 +90,7 @@ public class ClimateManager : MonoBehaviour
             BackgroundMat.SetColor("_TopColor", Color.Lerp(originTopColor, TopColor, time));
             BackgroundMat.SetColor("_MiddleColor", Color.Lerp(originMiddleColor, MiddleColor, time));
             BackgroundMat.SetColor("_BottomColor", Color.Lerp(originBottomColor, BottomColor, time));
+            ColorAdj.colorFilter.value = Color.Lerp(originAdj, Color.white, time);
 
             yield return null;
         }

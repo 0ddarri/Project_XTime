@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class YellowDust : BaseClimate
 {
+    [SerializeField] Color ColorAdjColor;
     [Header("Dust Settings")]
     [SerializeField] GameObject Dust;
     [SerializeField] Transform DustLeftPos;
@@ -21,6 +22,8 @@ public class YellowDust : BaseClimate
         Color originTopColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_TopColor");
         Color originMiddleColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_MiddleColor");
         Color originBottomColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_BottomColor");
+        Color originBottomGradientColor = SceneManager.Ins.Scene.ClimateManager.BottomGradientSprite.color;
+        Color origincolorAdj = SceneManager.Ins.Scene.ClimateManager.ColorAdj.colorFilter.value;
 
         while (time <= 1.0f)
         {
@@ -28,6 +31,8 @@ public class YellowDust : BaseClimate
             SceneManager.Ins.Scene.ClimateManager.BackgroundMat.SetColor("_TopColor", Color.Lerp(originTopColor, TopColor, time));
             SceneManager.Ins.Scene.ClimateManager.BackgroundMat.SetColor("_MiddleColor", Color.Lerp(originMiddleColor, MiddleColor, time));
             SceneManager.Ins.Scene.ClimateManager.BackgroundMat.SetColor("_BottomColor", Color.Lerp(originBottomColor, BottomColor, time));
+            SceneManager.Ins.Scene.ClimateManager.BottomGradientSprite.color = Color.Lerp(originBottomGradientColor, BottomGradientColor, time);
+            SceneManager.Ins.Scene.ClimateManager.ColorAdj.colorFilter.value = Color.Lerp(origincolorAdj, ColorAdjColor, time);
 
             yield return null;
         }
