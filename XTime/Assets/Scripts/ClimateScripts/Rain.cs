@@ -1,15 +1,21 @@
+using BansheeGz.BGSpline.Components;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Rain : BaseClimate
 {
     [SerializeField] Color ColorAdjColor;
     [SerializeField] ParticleSystem particleRainMain = null;
     [SerializeField] ParticleSystem particleRainFinish = null;
-
+    [Space(5.0f)]
+    [SerializeField] BoxCollider Collider3D;
+    [SerializeField] BoxCollider2D Collider2D;
+    [SerializeField] float ColEnableDelay = 0.2f;
+     
     bool isFinishParticle = false;
 
     public override void Initialize()
@@ -17,8 +23,17 @@ public class Rain : BaseClimate
         base.Initialize();
     }
 
+    IEnumerator IV_ColActive(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Collider2D.enabled = true;
+    }
+
+
     IEnumerator SetGraphicsSettings()
     {
+        StartCoroutine(IV_ColActive(ColEnableDelay));
+
         float time = 0.0f;
 
         Color originTopColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_TopColor");
@@ -26,6 +41,7 @@ public class Rain : BaseClimate
         Color originBottomColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_BottomColor");
         Color originBottomGradientColor = SceneManager.Ins.Scene.ClimateManager.BottomGradientSprite.color;
         Color origincolorAdj = SceneManager.Ins.Scene.ClimateManager.ColorAdj.colorFilter.value;
+        Collider2D.enabled = false;
 
         while (time <= 1.0f)
         {

@@ -7,7 +7,7 @@ public class ClimateTrigger : MonoBehaviour
     public bool IsClimateTriggered;
     public ENV_TYPE TriggeredClimate;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag.Equals("Env"))
         {
@@ -16,7 +16,16 @@ public class ClimateTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!IsClimateTriggered && collision.tag.Equals("Env"))
+        {
+            TriggeredClimate = collision.GetComponentInParent<BaseClimate>().Type;
+            IsClimateTriggered = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag.Equals("Env"))
         {

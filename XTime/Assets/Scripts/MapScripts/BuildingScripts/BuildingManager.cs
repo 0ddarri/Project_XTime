@@ -195,7 +195,7 @@ public class BuildingManager : MonoBehaviour
 
         SetCompany();
 
-        if (CheckCompany())
+        if (CheckCompany() && !QuestController.QuestAvail)
         {
             QuestDelayTime += Time.deltaTime;
             if(QuestDelayTime > CurrentQuestDelay)

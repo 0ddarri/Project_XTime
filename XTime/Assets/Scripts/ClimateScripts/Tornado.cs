@@ -47,9 +47,10 @@ public class Tornado : BaseClimate
     {
         yield return StartCoroutine(base.StartClimate(maxTime));
         yield return StartCoroutine(SetGraphicsSettings());
+        Camera.main.GetComponent<CameraShake>().StartShake(maxTime);
         Debug.Log("토네이도 시작");
         Curve.Clear();
-        TargetBuildingList = SceneManager.Ins.Scene.buildingManager.GetRandomBuilding(Random.Range(0, BuildingTargetMax));
+        TargetBuildingList = SceneManager.Ins.Scene.buildingManager.GetRandomBuilding(Random.Range(2, BuildingTargetMax));
         BansheeGz.BGSpline.Curve.BGCurvePoint originP = new BansheeGz.BGSpline.Curve.BGCurvePoint(Curve, Effect.transform.position, 
             BansheeGz.BGSpline.Curve.BGCurvePoint.ControlTypeEnum.BezierSymmetrical, Vector3.left, Vector3.right);
         Curve.AddPoint(originP);

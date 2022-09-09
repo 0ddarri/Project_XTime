@@ -14,11 +14,13 @@ public class CameraShake : MonoBehaviour
         initialPosition = transform.position;
     }
 
+    public void StartShake(float time)
+    {
+        shakeTime = time;
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-            shakeTime = 5.0f;
-
         if (shakeTime > 0.0f)
         {
             transform.position = Random.insideUnitSphere * shakeAmount + initialPosition;

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Earthquake : BaseClimate
 {
+    [SerializeField] List<BaseBuilding> TargetBuildingList = new List<BaseBuilding>();
+    [SerializeField] int BuildingTargetMax;
+
     [SerializeField] ParticleSystem particleEarthquakeMain = null;
     [SerializeField] ParticleSystem particleEarthquakeFinish = null;
+    [Space(5.0f)]
+    [SerializeField] BoxCollider Collider3D;
+    [SerializeField] BoxCollider2D Collider2D;
+    [SerializeField] float ColEnableDelay = 0.2f;
 
     bool isFinishParticle = false;
 
@@ -14,8 +21,16 @@ public class Earthquake : BaseClimate
         base.Initialize();
     }
 
+    IEnumerator IV_ColActive(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Collider2D.enabled = true;
+    }
+
     IEnumerator SetGraphicsSettings()
     {
+        StartCoroutine(IV_ColActive(ColEnableDelay));
+
         float time = 0.0f;
 
         Color originTopColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_TopColor");
@@ -35,12 +50,30 @@ public class Earthquake : BaseClimate
         }
     }
 
+    IEnumerator BreakBuildings(float maxTime)
+    {
+        int count = TargetBuildingList.Count;
+        float max = maxTime;
+        for(int i = 0; i < count; i++)
+        {
+            float time = Random.Range(0, max);
+            yield return new WaitForSeconds(time);
+            TargetBuildingList[i].Broken = true;
+            max -= time;
+        }
+    }
+
     protected override IEnumerator StartClimate(float maxTime)
     {
+        Camera.main.GetComponent<CameraShake>().StartShake(maxTime);
         particleEarthquakeMain.Play();
         particleEarthquakeFinish.Stop();
+
+        TargetBuildingList = SceneManager.Ins.Scene.buildingManager.GetRandomBuilding(Random.Range(1, BuildingTargetMax));
+
         yield return StartCoroutine(base.StartClimate(maxTime));
         yield return StartCoroutine(SetGraphicsSettings());
+        yield return StartCoroutine(BreakBuildings(maxTime));
         Debug.Log("지진 시작");
 
         CurrentPlayingTime = 0.0f;

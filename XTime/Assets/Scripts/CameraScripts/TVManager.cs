@@ -8,7 +8,7 @@ public class TVManager : MonoBehaviour
     [SerializeField] TVBase EnvCheckTV;
     [SerializeField] TVBase PolCheckTV;
     [Space (5.0f)]
-    [SerializeField] float TVUploadStayTime;
+    public float TVUploadStayTime;
     public bool IsTvUploaded = false;
     public CAMERA_TYPE CurrentUploadedType = CAMERA_TYPE.NONE;
     [SerializeField] float CurrentUploadStayTime = 0.0f;

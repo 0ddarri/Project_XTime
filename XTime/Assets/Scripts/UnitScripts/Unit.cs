@@ -119,7 +119,7 @@ public class Unit : MonoBehaviour
 
         BuildingStayTime = Random.Range(BuildingStayMinTime, BuildingStayMaxTime);
         CurrentBuildingStayTime = 0.0f;
-        MapIndexList = SceneManager.Ins.Scene.buildingManager.GetRandomBuildingNum();
+        //MapIndexList = SceneManager.Ins.Scene.buildingManager.GetRandomBuildingNum();
 
         ClimateIcon.SetAllInvisible();
     }
@@ -173,11 +173,32 @@ public class Unit : MonoBehaviour
                 break;
             case ENV_TYPE.MIST:
                 {
+                    ClimateIcon.SetIcon(ENV_TYPE.MIST);
                 }
                 break;
             case ENV_TYPE.YELLOW_DUST:
                 {
                     ClimateIcon.SetIcon(ENV_TYPE.YELLOW_DUST);
+                }
+                break;
+            case ENV_TYPE.TORNADO:
+                {
+                    ClimateIcon.SetIcon(ENV_TYPE.TORNADO);
+                }
+                break;
+            case ENV_TYPE.SNOW:
+                {
+                    ClimateIcon.SetIcon(ENV_TYPE.SNOW);
+                }
+                break;
+            case ENV_TYPE.RAIN:
+                {
+                    ClimateIcon.SetIcon(ENV_TYPE.RAIN);
+                }
+                break;
+            case ENV_TYPE.QUAKE:
+                {
+                    ClimateIcon.SetIcon(ENV_TYPE.QUAKE);
                 }
                 break;
         }
@@ -298,10 +319,12 @@ public class Unit : MonoBehaviour
                 CurrentEnv = collision.GetComponentInParent<ClimateType>().gameObject;
                 if (CameraManager.Ins.IsCameraCompleteFilmed(CAMERA_TYPE.ENV))
                 {
+                    Debug.Log("제대로 된 신고로 인한 회복");
                     Confidence += Random.Range(1, 6);
                 }
                 else
                 {
+                    Debug.Log("제대로 안된 신고로 인한 하락");
                     Confidence -= Random.Range(1, 10);
                 }
             }

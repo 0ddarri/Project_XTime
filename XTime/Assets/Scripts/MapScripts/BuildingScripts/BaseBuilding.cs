@@ -97,7 +97,10 @@ public class BaseBuilding : MonoBehaviour
         {
             if(EntranceList[i].IsEnter)
             {
-                Initialize();
+                for (int j = 0; j < EntranceList.Count; j++)
+                {
+                    EntranceList[j].Initialize();
+                }
             }
         }
     }

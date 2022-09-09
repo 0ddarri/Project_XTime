@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public enum CAMERA_TYPE
 {
@@ -35,6 +36,7 @@ public class CameraBase : MonoBehaviour
 
     [Header("Raycast Settings")]
     [SerializeField] float MaxDistance;
+    [SerializeField] LayerMask LayerMask;
 
     public bool TargetChecked = false;
     public bool IsFilmed = false;
@@ -69,7 +71,7 @@ public class CameraBase : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 size = new Vector3(Width, Height, 5);
-        Physics.BoxCast(Camera.transform.position, size / 2, transform.forward, out hit, transform.rotation, MaxDistance);
+        Physics.BoxCast(Camera.transform.position, size / 2, transform.forward, out hit, transform.rotation, MaxDistance, LayerMask);
         if (hit.collider != null && hit.collider.gameObject.tag.Equals(CollisionTag))
         {
             return true;
@@ -163,8 +165,8 @@ public class CameraBase : MonoBehaviour
 
         RaycastHit hit;
         Vector3 size = new Vector3(Camera.orthographicSize, Camera.orthographicSize * Screen.height / Screen.width, 5);
-        bool check = Physics.BoxCast(Camera.transform.position, size / 2, transform.forward, out hit, transform.rotation, MaxDistance);
-        if(check)
+        bool check = Physics.BoxCast(Camera.transform.position, size / 2, transform.forward, out hit, transform.rotation, MaxDistance, LayerMask);
+        if(check && hit.collider.tag == "Env")
         {
             Gizmos.DrawWireCube(Camera.transform.position + transform.forward * hit.distance, size);
         }

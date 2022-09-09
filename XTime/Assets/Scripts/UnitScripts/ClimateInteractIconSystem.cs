@@ -34,7 +34,7 @@ public class ClimateInteractIconSystem : MonoBehaviour
     public void SetIcon(ENV_TYPE Type)
     {
         SetAllInvisible();
-        BackgroundSprite.color = Color.white;
+        BackgroundSprite.color = Color.gray;
         for (int i = 0; i < IconList.Count; i++)
         {
             if (IconList[i].Type.Equals(Type))

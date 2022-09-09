@@ -7,6 +7,10 @@ public class Snow : BaseClimate
     [SerializeField] Color ColorAdjColor;
     [SerializeField] ParticleSystem particleSnowMain = null;
     [SerializeField] ParticleSystem particleSnowFinish = null;
+    [Space(5.0f)]
+    [SerializeField] BoxCollider Collider3D;
+    [SerializeField] BoxCollider2D Collider2D;
+    [SerializeField] float ColEnableDelay = 0.2f;
 
     bool isFinishParticle = false;
 
@@ -15,8 +19,17 @@ public class Snow : BaseClimate
         base.Initialize();
     }
 
+    IEnumerator IV_ColActive(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Collider2D.enabled = true;
+    }
+
+
     IEnumerator SetGraphicsSettings()
     {
+        StartCoroutine(IV_ColActive(ColEnableDelay));
+
         float time = 0.0f;
 
         Color originTopColor = SceneManager.Ins.Scene.ClimateManager.BackgroundMat.GetColor("_TopColor");

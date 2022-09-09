@@ -119,6 +119,16 @@ public class CameraManager : Singleton<CameraManager>
         SetCamDisable();
     }
 
+    void IV_ResetEnv()
+    {
+        IsEnvChecked = false;
+    }
+
+    void IV_ResetPol()
+    {
+        IsPolChecked = false;
+    }
+
     public void UploadNews(CAMERA_TYPE type)
     {
         if (TVManager.IsTvUploaded)
@@ -140,11 +150,13 @@ public class CameraManager : Singleton<CameraManager>
             if (type.Equals(CAMERA_TYPE.ENV))
             {
                 IsEnvChecked = true;
+                Invoke("IV_ResetEnv", TVManager.TVUploadStayTime);
                 SceneManager.Ins.Scene.SoundManager.PlaySound(SOUND_TYPE.SFX, "EnvUpload");
             }
             else
             {
                 IsPolChecked = true;
+                Invoke("IV_ResetPol", TVManager.TVUploadStayTime);
                 SceneManager.Ins.Scene.SoundManager.PlaySound(SOUND_TYPE.SFX, "PolUpload");
             }
             SceneManager.Ins.Scene.MoneyController.Money += 2;
