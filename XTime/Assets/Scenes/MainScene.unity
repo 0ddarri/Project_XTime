@@ -2462,10 +2462,10 @@ MonoBehaviour:
   QuestTimeRandomMin: 17
   QuestTimeRandomMax: 50
   QuestTime: 0
-  Penalty: 1
+  Penalty: 0.1
   AcceptMoney: 1
   RewardMoney: 1
-  ResignPanalty: 1
+  ResignPanalty: 0.1
   YesButton: {fileID: 53717551}
   NoButton: {fileID: 627234211}
   Slider: {fileID: 905046857}
@@ -17244,10 +17244,10 @@ MonoBehaviour:
   MinPlayingTime: 25
   MaxPlayingTime: 30
   RandomTime: 0
-  TopColor: {r: 0, g: 0, b: 0, a: 0}
-  MiddleColor: {r: 0, g: 0, b: 0, a: 0}
-  BottomColor: {r: 0, g: 0, b: 0, a: 0}
-  BottomGradientColor: {r: 1, g: 1, b: 1, a: 1}
+  TopColor: {r: 0.58431375, g: 0.42352942, b: 0.25490198, a: 1}
+  MiddleColor: {r: 0.7372549, g: 0.64705884, b: 0.5529412, a: 1}
+  BottomColor: {r: 0.49019608, g: 0.4117647, b: 0.3254902, a: 1}
+  BottomGradientColor: {r: 0, g: 0, b: 0, a: 1}
   TargetBuildingList: []
   BuildingTargetMax: 4
   particleEarthquakeMain: {fileID: 1788138055}

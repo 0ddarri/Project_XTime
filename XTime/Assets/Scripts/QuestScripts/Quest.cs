@@ -8,10 +8,10 @@ public class Quest : MonoBehaviour
     [SerializeField] int QuestTimeRandomMin; // 퀘스트 시간
     [SerializeField] int QuestTimeRandomMax; // 퀘스트 시간
     [SerializeField] int QuestTime; // 퀘스트 시간
-    [SerializeField] int Penalty; // 거절 패널티
+    [SerializeField] float Penalty; // 거절 패널티
     [SerializeField] int AcceptMoney; // 수락 보상
     [SerializeField] int RewardMoney; // 성공 보상
-    [SerializeField] int ResignPanalty; // 중도포기 패널티
+    [SerializeField] float ResignPanalty; // 중도포기 패널티
 
     [Space(5.0f)]
     [SerializeField] IsoButton YesButton;
