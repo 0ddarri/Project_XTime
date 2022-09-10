@@ -60,6 +60,13 @@ public class Earthquake : BaseClimate
             yield return new WaitForSeconds(time);
             TargetBuildingList[i].Broken = true;
             max -= time;
+            CurrentPlayingTime += time;
+            if (!isFinishParticle && CurrentPlayingTime > maxTime - 1.2f)
+            {
+                isFinishParticle = true;
+                particleEarthquakeMain.Stop();
+                particleEarthquakeFinish.Play();
+            }
         }
     }
 
@@ -71,12 +78,12 @@ public class Earthquake : BaseClimate
 
         TargetBuildingList = SceneManager.Ins.Scene.buildingManager.GetRandomBuilding(Random.Range(1, BuildingTargetMax));
 
+        CurrentPlayingTime = 0.0f;
         yield return StartCoroutine(base.StartClimate(maxTime));
         yield return StartCoroutine(SetGraphicsSettings());
         yield return StartCoroutine(BreakBuildings(maxTime));
         Debug.Log("지진 시작");
 
-        CurrentPlayingTime = 0.0f;
         while (CurrentPlayingTime < maxTime)
         {
             CurrentPlayingTime += Time.deltaTime;
