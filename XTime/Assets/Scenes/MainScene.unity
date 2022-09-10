@@ -1120,6 +1120,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &98288051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 98288052}
+  m_Layer: 0
+  m_Name: Tutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &98288052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98288051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1150416255}
+  m_Father: {fileID: 1869275630}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &99865218
 GameObject:
   m_ObjectHideFlags: 0
@@ -49517,8 +49549,8 @@ RectTransform:
   - {fileID: 719050843}
   - {fileID: 1677512636}
   - {fileID: 605877692}
-  m_Father: {fileID: 1869275630}
-  m_RootOrder: 6
+  m_Father: {fileID: 98288052}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -49575,7 +49607,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1200172933}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -49990,6 +50022,7 @@ MonoBehaviour:
   MoneyController: {fileID: 680354606}
   SettingsUIController: {fileID: 207774562}
   SoundManager: {fileID: 1943080465}
+  TutorialUI: {fileID: 98288051}
   EndingUI: {fileID: 700055380}
   ConfidenceMinValue: 60
   SaveTime: 0
@@ -84785,6 +84818,13 @@ MonoBehaviour:
   btnNext: {fileID: 1179741519}
   btnBefore: {fileID: 789868736}
   btnExit: {fileID: 1758755683}
+  AbleSetButtons:
+  - {fileID: 966060599}
+  - {fileID: 1174916858}
+  - {fileID: 1903920358}
+  - {fileID: 1776391836}
+  - {fileID: 2032417957}
+  - {fileID: 1926087756}
 --- !u!114 &1677512638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85738,8 +85778,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 767, y: -417}
-  m_SizeDelta: {x: 310, y: 128}
+  m_AnchoredPosition: {x: 767, y: -427.3606}
+  m_SizeDelta: {x: 310, y: 107.2788}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1758755683
 MonoBehaviour:
@@ -92286,7 +92326,7 @@ Transform:
   - {fileID: 1962729093}
   - {fileID: 1968612353}
   - {fileID: 973273229}
-  - {fileID: 1150416255}
+  - {fileID: 98288052}
   m_Father: {fileID: 1175143340}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

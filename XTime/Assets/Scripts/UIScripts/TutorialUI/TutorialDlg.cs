@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,20 @@ public class TutorialDlg : MonoBehaviour
     [SerializeField] Button btnNext = null;
     [SerializeField] Button btnBefore = null;
     [SerializeField] Button btnExit = null;
+    [Space(5.0f)]
+    [SerializeField] IsoButton[] AbleSetButtons;
 
     int curIndex = 0;
     bool isShow = false;
     Vector3 originPos = Vector3.zero;
+
+    void SetButtonsEnable(bool value)
+    {
+        for(int i = 0; i < AbleSetButtons.Length; i++)
+        {
+            AbleSetButtons[i].gameObject.SetActive(value);
+        }
+    }
 
     void ShowDlg()
     {
@@ -61,6 +72,7 @@ public class TutorialDlg : MonoBehaviour
     void OnClick_Tutorial()
     {
         gameObject.SetActive(true);
+        SetButtonsEnable(false);
     }
 
     void OnClick_Next()
@@ -78,6 +90,7 @@ public class TutorialDlg : MonoBehaviour
     void OnClick_Exit()
     {
         isShow = false;
+        SetButtonsEnable(true);
     }
 
     void Start()
