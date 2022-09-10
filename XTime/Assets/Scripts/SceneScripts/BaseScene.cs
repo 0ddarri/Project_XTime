@@ -18,6 +18,7 @@ public class BaseScene : MonoBehaviour
     public MoneyController MoneyController;
     public SettingsUIController SettingsUIController;
     public SoundManager SoundManager;
+    [SerializeField] GameObject TutorialUI;
 
     [Space(5.0f)]
     [SerializeField] EndingUIController EndingUI;
@@ -85,12 +86,14 @@ public class BaseScene : MonoBehaviour
         Time.timeScale = 1.0f;
         IntroUIManager.Initialize();
         EndingUI.gameObject.SetActive(false);
+        TutorialUI.SetActive(true);
     }
 
     void IngameInit()
     {
         Time.timeScale = 1.0f;
         StartCoroutine(MapManager.StartObjAnimation());
+        TutorialUI.SetActive(false);
     }
 
     void PauseInit()
