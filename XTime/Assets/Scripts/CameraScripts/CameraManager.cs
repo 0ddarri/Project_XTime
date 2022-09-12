@@ -111,7 +111,8 @@ public class CameraManager : Singleton<CameraManager>
                 SceneManager.Ins.Scene.TrashManager.ClearTrash();
                 SceneManager.Ins.Scene.buildingManager.Emotion += 0.1f;
                 Debug.Log("신고로 인한 악감정 증가");
-                IsPolChecked = false;
+                if (!QuestMNG.Ins.onQuest)
+                    IsPolChecked = false;
             }
         }
         FollowMouse();

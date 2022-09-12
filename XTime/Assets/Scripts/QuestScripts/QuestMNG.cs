@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneManager : Singleton<SceneManager>
+public class QuestMNG : Singleton<QuestMNG>
 {
-    public BaseScene Scene;
+    public bool onQuest = false;
 }

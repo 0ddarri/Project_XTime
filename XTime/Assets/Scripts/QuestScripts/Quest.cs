@@ -81,12 +81,14 @@ public class Quest : MonoBehaviour
 
     IEnumerator StartQuest()
     {
+        QuestMNG.Ins.onQuest = true;
         float questTime = QuestTime;
         while(questTime > 0.0f)
         {
             questTime -= Time.deltaTime;
             if(CameraManager.Ins.IsCameraCompleteFilmed(CAMERA_TYPE.POL))
             {
+                QuestMNG.Ins.onQuest = false;
                 SceneManager.Ins.Scene.buildingManager.Emotion += ResignPanalty;
                 Debug.Log("퀘스트 도중실패로 인한 악감정 증가");
                 goto END;
@@ -94,6 +96,7 @@ public class Quest : MonoBehaviour
             yield return null;
         }
         Debug.Log("성공");
+        QuestMNG.Ins.onQuest = false;
         SceneManager.Ins.Scene.MoneyController.Money += RewardMoney;
 
     END:

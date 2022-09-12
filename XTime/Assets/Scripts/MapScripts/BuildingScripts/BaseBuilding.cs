@@ -19,10 +19,20 @@ public class BaseBuilding : MonoBehaviour
             IsBroken = value;
             if(IsBroken)
             {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (transform.GetChild(i).GetComponent<SpriteRenderer>() != null)
+                        transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = false;
+                }
                 Sprite.enabled = false;
             }
             else
             {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (transform.GetChild(i).GetComponent<SpriteRenderer>() != null)
+                        transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+                }
                 Sprite.enabled = true;
             }
         }
@@ -57,11 +67,21 @@ public class BaseBuilding : MonoBehaviour
             IsCompany = value;
             if (!IsCompany)
             {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (transform.GetChild(i).GetComponent<SpriteRenderer>() != null)
+                        transform.GetChild(i).GetComponent<SpriteRenderer>().color = Color.white;
+                }
                 Sprite.color = Color.white;
                 CurTrashTime = 0.0f;
             }
             else
             {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (transform.GetChild(i).GetComponent<SpriteRenderer>() != null)
+                        transform.GetChild(i).GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f);
+                }
                 Sprite.color = new Color(0.1f, 0.1f, 0.1f);
                 CurCompanyTime = 0.0f;
             }
