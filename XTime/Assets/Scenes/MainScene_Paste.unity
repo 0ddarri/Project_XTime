@@ -7284,6 +7284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 157882165}
   - component: {fileID: 157882166}
+  - component: {fileID: 157882167}
   m_Layer: 0
   m_Name: IntroSceneENG_Start
   m_TagString: Untagged
@@ -7299,9 +7300,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157882164}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.65, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.93, y: -1.35, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1364333963}
   m_RootOrder: 1
@@ -7358,6 +7359,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &157882167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157882164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410d2fca2ece5974884043b3a908c597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncedSprite: {fileID: 1364333964}
+  ColorSync: 1
 --- !u!1 &168877836
 GameObject:
   m_ObjectHideFlags: 0
@@ -30197,6 +30212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 544209307}
   - component: {fileID: 544209308}
+  - component: {fileID: 544209309}
   m_Layer: 0
   m_Name: IntroSceneENG_Settings
   m_TagString: Untagged
@@ -30271,6 +30287,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &544209309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544209306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410d2fca2ece5974884043b3a908c597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncedSprite: {fileID: 2003973068}
+  ColorSync: 1
 --- !u!1 &548332940
 GameObject:
   m_ObjectHideFlags: 0
@@ -85194,6 +85224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1611510105}
   - component: {fileID: 1611510106}
+  - component: {fileID: 1611510107}
   m_Layer: 0
   m_Name: IntroSceneENG_Start
   m_TagString: Untagged
@@ -85268,6 +85299,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1611510107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611510104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410d2fca2ece5974884043b3a908c597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncedSprite: {fileID: 1625321016}
+  ColorSync: 1
 --- !u!1 &1612589274
 GameObject:
   m_ObjectHideFlags: 0
@@ -109687,6 +109732,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2047172104}
   - component: {fileID: 2047172105}
+  - component: {fileID: 2047172106}
   m_Layer: 0
   m_Name: IntroSceneENG_Exit
   m_TagString: Untagged
@@ -109761,6 +109807,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2047172106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047172103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410d2fca2ece5974884043b3a908c597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncedSprite: {fileID: 1071266334}
+  ColorSync: 1
 --- !u!1 &2050783059
 GameObject:
   m_ObjectHideFlags: 0
