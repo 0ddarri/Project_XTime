@@ -9,6 +9,8 @@ public class SettingsUIController : MonoBehaviour
     [SerializeField] SpriteRenderer BGMButtonSprite;
     [SerializeField] IsoToggle SFXButton;
     [SerializeField] SpriteRenderer SFXButtonSprite;
+    [SerializeField] IsoToggle LangButton;
+    [SerializeField] SpriteRenderer LangSprite;
     [SerializeField] IsoButton OKButton;
     [SerializeField] IsoButton MainButton;
     [Space(5.0f)]
@@ -17,6 +19,10 @@ public class SettingsUIController : MonoBehaviour
     [Space(5.0f)]
     [SerializeField] Sprite OnTexture;
     [SerializeField] Sprite OffTexture;
+    [Header("Language Settings")]
+    [SerializeField] LanguageManager LanguageManager;
+    [SerializeField] Sprite KORTexture;
+    [SerializeField] Sprite ENGTexture;
 
     public void Start()
     {
@@ -27,8 +33,12 @@ public class SettingsUIController : MonoBehaviour
     {
         BGMButton.Toggle = System.Convert.ToBoolean(IOManager.Ins.BGM);
         SFXButton.Toggle = System.Convert.ToBoolean(IOManager.Ins.SFX);
+        LangButton.Toggle = System.Convert.ToBoolean(IOManager.Ins.LANG);
+        Debug.Log("LANG 저장정보 : " + IOManager.Ins.LANG);
+        Debug.Log("LANG 저장정보 : " + System.Convert.ToBoolean(IOManager.Ins.LANG));
         BGMButtonSprite.sprite = BGMButton.Toggle ? SetTextureOn("BGM") : SetTextureOff("BGM");
         SFXButtonSprite.sprite = SFXButton.Toggle ? SetTextureOn("SFX") : SetTextureOff("SFX");
+        LangSprite.sprite = LangButton.Toggle ? SetTextureLang("ENG") : SetTextureLang("KOR");
     }
 
     public void Initialize()
@@ -92,15 +102,33 @@ public class SettingsUIController : MonoBehaviour
         return OffTexture;
     }
 
+    Sprite SetTextureLang(string type)
+    {
+        if (type == "KOR")
+        {
+            LanguageManager.SetKorean();
+            IOManager.Ins.LANG = 0;
+            return KORTexture;
+        }
+        else
+        {
+            LanguageManager.SetEnglish();
+            IOManager.Ins.LANG = 1;
+            return ENGTexture;
+        }
+    }
+
     private void Update()
     {
         BGMButtonSprite.sprite = BGMButton.Toggle ? SetTextureOn("BGM") : SetTextureOff("BGM");
         SFXButtonSprite.sprite = SFXButton.Toggle ? SetTextureOn("SFX") : SetTextureOff("SFX");
+        LangSprite.sprite = LangButton.Toggle ? SetTextureLang("ENG") : SetTextureLang("KOR");
 
         if (OKButton.IsClicked)
         {
             OKButton.IsClicked = false;
             IOManager.Ins.SaveSoundInfo();
+            IOManager.Ins.SaveLanguage();
             if(SceneManager.Ins.Scene.IsState(GAME_STATE.PAUSED))
                 SceneManager.Ins.Scene.ChangeState(GAME_STATE.INGAME);
             else

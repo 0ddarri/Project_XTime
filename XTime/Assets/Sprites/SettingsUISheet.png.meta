@@ -153,8 +153,8 @@ TextureImporter:
         y: 900
         width: 140
         height: 120
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -279,8 +279,8 @@ TextureImporter:
         y: 0
         width: 628
         height: 468
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -301,7 +301,7 @@ TextureImporter:
         width: 124
         height: 113
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -309,6 +309,111 @@ TextureImporter:
       bones: []
       spriteID: 31715addd21fdd84da77bb3df1b2b129
       internalID: 1994692524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SettingsUISheet_en_Title
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 621
+        width: 179
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8b9d474ed88b924c99fcc74e6a3e5d7
+      internalID: -959411249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SettingsUISheet_Lang_en
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 487
+        width: 199
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0fb570a92e957a488d0ea9b0cd0709c
+      internalID: 385458975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SettingsUISheet_Lang_kr
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 533
+        width: 59
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eddcb677cf607784cb70034283cd049b
+      internalID: -1735223474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SettingsUISheet_KR
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 538
+        width: 88
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d50895081dffe2b44932a677eaaf588a
+      internalID: 1131534594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SettingsUISheet_EN
+      rect:
+        serializedVersion: 2
+        x: 901
+        y: 476
+        width: 76
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdaea3e6f953b614d82495540c776bda
+      internalID: -1482742435
       vertices: []
       indices: 
       edges: []
@@ -330,11 +435,16 @@ TextureImporter:
       SettingsUISheet_On: -1385643727
       SettingsUISheet_Title: -855725180
       SettingsUISheet_SFX: -369361165
+      SettingsUISheet_EN: -1482742435
+      SettingsUISheet_Lang_kr: -1735223474
       SettingsUISheet_Main: 1994692524
       SettingsUISheet 1_0: 927809825
       SettingsUISheet_WarningTitle: 550408611
       SettingsUISheet 1_10: -1996704223
       SettingsUISheet_BGM: 2094348529
+      SettingsUISheet_en_Title: -959411249
+      SettingsUISheet_Lang_en: 385458975
+      SettingsUISheet_KR: 1131534594
       SettingsUISheet 1_11: -1264432060
       SettingsUISheet_OK: -1866566599
       SettingsUISheet_Off: -574608084

@@ -32,7 +32,10 @@ public class Quest : MonoBehaviour
     public void QuestInit()
     {
         QuestTime = Random.Range(QuestTimeRandomMin, QuestTimeRandomMax);
-        QuestText.text = "쓰레기 투기행위 " + QuestTime + " 초간 무시";
+        if(IOManager.Ins.LANG == 0)
+            QuestText.text = "쓰레기 투기행위 " + QuestTime + " 초간 무시";
+        else
+            QuestText.text = "Ignoring dumping for " + QuestTime + " seconds";
 
         Slider.Initialize();
         Slider.gameObject.SetActive(false);

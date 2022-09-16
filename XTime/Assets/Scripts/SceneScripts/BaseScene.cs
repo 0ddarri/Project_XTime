@@ -28,6 +28,8 @@ public class BaseScene : MonoBehaviour
     public float SaveTime = 0.0f;
     [SerializeField] float MaxSaveTime = 0.0f;
     [SerializeField] Text MaxSaveTimeText;
+    [SerializeField] LanguageString SaveTimeString;
+    string OriginStr;
 
     private void Awake()
     {
@@ -43,6 +45,7 @@ public class BaseScene : MonoBehaviour
 
     private void Start()
     {
+
         Time.timeScale = 1.0f;
         IntroUIManager.Initialize();
         MapManager.Initialize();
@@ -50,7 +53,8 @@ public class BaseScene : MonoBehaviour
         MoneyController.Initialize();
         IOManager.Ins.Load();
         SettingsUIController.Load();
-        MaxSaveTimeText.text = "최고기록 : " + IOManager.Ins.MaxSaveTime.ToString("F1") + "s";
+        MaxSaveTimeText.text = SaveTimeString.str + " : " + IOManager.Ins.MaxSaveTime.ToString("F1") + "s";
+        OriginStr = SaveTimeString.str;
         SoundManager.PlaySound(SOUND_TYPE.BGM, "Main BGM"); 
     }
 
@@ -123,6 +127,12 @@ public class BaseScene : MonoBehaviour
 
     private void Update()
     {
+        if(OriginStr != SaveTimeString.str)
+        {
+            OriginStr = SaveTimeString.str;
+            MaxSaveTimeText.text = SaveTimeString.str + " : " + IOManager.Ins.MaxSaveTime.ToString("F1") + "s";
+        }
+
         switch (State)
         {
             case GAME_STATE.INTRO:
