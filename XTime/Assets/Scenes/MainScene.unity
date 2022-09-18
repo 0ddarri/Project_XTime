@@ -101859,10 +101859,10 @@ MonoBehaviour:
   MinPlayingTime: 20
   MaxPlayingTime: 35
   RandomTime: 0
-  TopColor: {r: 0, g: 0, b: 0, a: 0}
-  MiddleColor: {r: 0, g: 0, b: 0, a: 0}
-  BottomColor: {r: 0, g: 0, b: 0, a: 0}
-  BottomGradientColor: {r: 1, g: 1, b: 1, a: 1}
+  TopColor: {r: 0.6627451, g: 0.74509805, b: 0.7294118, a: 1}
+  MiddleColor: {r: 0.5372549, g: 0.5372549, b: 0.5372549, a: 1}
+  BottomColor: {r: 0.14509805, g: 0.18431373, b: 0.21568628, a: 1}
+  BottomGradientColor: {r: 0.47058824, g: 0.25490198, b: 0.25490198, a: 1}
   Dust: {fileID: 2040480045}
   DustLeftPos: {fileID: 1261130978}
   DustRightPos: {fileID: 2112794531}

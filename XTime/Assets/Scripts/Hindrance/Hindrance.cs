@@ -71,7 +71,7 @@ public class Hindrance : MonoBehaviour
 
     void Update()
     {
-        if (!onHindrance && SceneManager.Ins.Scene.buildingManager.Emotion >= 0.1f)
+        if (!onHindrance && SceneManager.Ins.Scene.buildingManager.Emotion >= 0.6f)
             StartCoroutine(Enum_StartHindrance());
     }
 }
