@@ -94,6 +94,12 @@ public class Unit : MonoBehaviour
     [SerializeField] SpriteRenderer Fill;
     [SerializeField] SpriteRenderer Outline;
 
+    [Space(0.5f)]
+    [SerializeField] SpriteRenderer spriteMainRenderer = null;
+    [SerializeField] SpriteRenderer outLineRenderer = null;
+    [SerializeField] ParticleSystem particleMain = null;
+
+    float destroyDuration = 1.0f;
 
     public float Confidence
     {
@@ -111,8 +117,14 @@ public class Unit : MonoBehaviour
         }
     }
 
+    bool isLeave = false;
+
     public void Initialize()
     {
+        isLeave = false;
+        destroyDuration = 1.0f;
+        spriteMainRenderer.material.SetFloat("_Fade", destroyDuration);
+        outLineRenderer.material.SetFloat("_Fade", destroyDuration);
         Confidence = 100;
         BeforeTilePos = SceneManager.Ins.Scene.MapManager.GetCellWorldPos(SceneManager.Ins.Scene.MapManager.GetCellPos(transform.position, TileNum), TileNum);
         ResultNearPos = BeforeTilePos;
@@ -134,6 +146,8 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        spriteMainRenderer.material = Instantiate(spriteMainRenderer.material);
+        outLineRenderer.material = Instantiate(outLineRenderer.material);
         Initialize();
     }
 
@@ -207,8 +221,9 @@ public class Unit : MonoBehaviour
 
     void CheckLeave()
     {
-        if(Confidence < 40)
+        if(!isLeave && Confidence < 40)
         {
+            isLeave = true;
             ChangeState(UNIT_STATE.LEAVED);
         }
     }
@@ -250,7 +265,7 @@ public class Unit : MonoBehaviour
                 break;
             case UNIT_STATE.LEAVED:
                 {
-
+                    UintDestroy();
                 }
                 break;
         }
@@ -274,9 +289,14 @@ public class Unit : MonoBehaviour
         Collider2D.enabled = false;
     }
 
+    IEnumerator Enum_Leave()
+    {
+        yield return null;
+    }
+
     void StateInit_Leave()
     {
-        gameObject.SetActive(false);
+        particleMain.Play();
     }
 
     void ChangeState(UNIT_STATE newstate)
@@ -304,6 +324,18 @@ public class Unit : MonoBehaviour
         }
 
         UnitState = newstate;
+    }
+
+    void UintDestroy()
+    {
+        if (particleMain == null)
+        {
+            destroyDuration -= Time.deltaTime;
+            spriteMainRenderer.material.SetFloat("_Fade", destroyDuration);
+            outLineRenderer.material.SetFloat("_Fade", destroyDuration);
+            if (destroyDuration <= 0.0f)
+                gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -5164,7 +5164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &131977686
 Transform:
   m_ObjectHideFlags: 0
@@ -10516,6 +10516,7 @@ MonoBehaviour:
   DefaultMaterial: {fileID: 2100000, guid: 64066670187a2cd4d87cfb909bc89c3d, type: 2}
   CameraEnvMaterial: {fileID: 2100000, guid: fb72087bdc1e38245966aec74664e5b3, type: 2}
   CameraPolMaterial: {fileID: 2100000, guid: f669d69d3007cd94c9a024834ee28103, type: 2}
+  particleMain: {fileID: 0}
 --- !u!4 &699216419
 Transform:
   m_ObjectHideFlags: 0
@@ -10646,7 +10647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1057103030
 Transform:
   m_ObjectHideFlags: 0

@@ -6,16 +6,12 @@ public enum ParticleID
 {
     BUILDINGCOLLAPSE,
     BUILD,
-    TV,
-    UNITDESTROY,
 }
 
 public class ParticleMNG : Singleton<ParticleMNG>
 {
     [SerializeField] GameObject prefBuildingCollapse = null;
     [SerializeField] GameObject prefBuild = null;
-    [SerializeField] GameObject prefTVParticle = null;
-    [SerializeField] GameObject prefUnitDestroy = null;
 
     GameObject SetGameObj(ParticleID _particleID)
     {
@@ -23,8 +19,6 @@ public class ParticleMNG : Singleton<ParticleMNG>
         {
             case ParticleID.BUILDINGCOLLAPSE: return prefBuildingCollapse;
             case ParticleID.BUILD: return prefBuild;
-            case ParticleID.TV: return prefTVParticle;
-            case ParticleID.UNITDESTROY: return prefUnitDestroy;
             default: return null;
         }
     }

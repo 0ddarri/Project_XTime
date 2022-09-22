@@ -40,7 +40,7 @@ Material:
     m_Floats:
     - _Direction: 0
     m_Colors:
-    - _BottomColor: {r: 0.14431292, g: 0.18459636, b: 0.21698111, a: 1}
-    - _MiddleColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
-    - _TopColor: {r: 0.66442686, g: 0.745283, b: 0.7281317, a: 1}
+    - _BottomColor: {r: 0.49019608, g: 0.4117647, b: 0.3254902, a: 1}
+    - _MiddleColor: {r: 0.7372549, g: 0.64705884, b: 0.5529412, a: 1}
+    - _TopColor: {r: 0.58431375, g: 0.42352942, b: 0.25490198, a: 1}
   m_BuildTextureStacks: []

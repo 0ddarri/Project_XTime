@@ -9,6 +9,7 @@ public class TVBase : MonoBehaviour
     [SerializeField] Material DefaultMaterial;
     [SerializeField] Material CameraEnvMaterial;
     [SerializeField] Material CameraPolMaterial;
+    [SerializeField] ParticleSystem particleMain = null; 
 
     public void Initialize()
     {
@@ -17,6 +18,7 @@ public class TVBase : MonoBehaviour
 
     public void SetMaterial(CAMERA_TYPE type)
     {
+        particleMain.Play();
         if (type.Equals(CAMERA_TYPE.ENV))
             Mesh.material = CameraEnvMaterial;
         else

@@ -25,6 +25,7 @@ public class BaseBuilding : MonoBehaviour
                         transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = false;
                 }
                 Sprite.enabled = false;
+                ParticleMNG.Ins.SpawnParticle(ParticleID.BUILDINGCOLLAPSE, transform.position);
             }
             else
             {
@@ -34,6 +35,7 @@ public class BaseBuilding : MonoBehaviour
                         transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
                 }
                 Sprite.enabled = true;
+                ParticleMNG.Ins.SpawnParticle(ParticleID.BUILD, transform.position);
             }
         }
     }
